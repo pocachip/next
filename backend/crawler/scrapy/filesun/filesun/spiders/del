@@ -1,0 +1,1124 @@
+
+/* for IE */
+/*
+// 모바일에서 스크롤 고정하기 위하여 주석처리 - (기존은 모바일에서 주소창 없애기 위하여 사용한것 같음)
+if (window.attachEvent) { //ie하위 , opera	
+	  window.attachEvent("onload",function(){
+	  setTimeout(scrollTo,0,0,1);
+    });
+ }else{// fx ,safari
+  window.addEventListener("load",function(){
+	setTimeout(scrollTo,0,0,1);
+  },false);
+}
+*/
+//window.addEventListener("load",function(){
+//	setTimeout(scrollTo,0,0,1);
+//},false);
+
+
+$(document).ready(function(e) {
+	
+	
+	// header memberInfo extend toggle
+	$('.memberInfo .info .btnOC').click(function(){
+		if($('.memberInfo .normal').width()){
+			$('.memberInfo .info').removeClass('normal');
+			$('.memberInfo .info').addClass('extend');
+		}else{
+			$('.memberInfo .info').removeClass('extend');
+			$('.memberInfo .info').addClass('normal');
+		}
+	});
+	
+	// header entireMenu toggle
+	$('#entireMenuToggle').click(function(){
+		if($('#headerLnb').css('display') == 'none'){
+			$('#headerLnb').show()
+		}else{
+			$('#headerLnb').hide()
+		}
+	});
+	
+});
+
+$(function(){
+	
+/* search mode change */
+	var keywordOff = false;
+	var searchKeyword = $("#searchKeyword");
+	$("#searchKeyword").click(function(){
+		$("#logoSearch").addClass("searchMode");
+		keywordOff = true;
+		//searchKeyword.select(); 
+		return false;
+	});
+	$("#searchKeyword").blur(function(){ 
+		setTimeout(function(){$("#logoSearch").removeClass("searchMode");},100);
+		keywordOff = false;
+  }); 
+
+/* main search input delete */
+	$("#inputKeywordDelete").mousedown(function(){
+		if(keywordOff == false){
+			setTimeout(function(){
+				$("#logoSearch").addClass("searchMode");
+				//$("#searchKeyword").focus().select();
+			},100);
+		}else{
+			$("#searchKeyword").val("");
+		}
+	});	
+	
+/* best lucky view */
+	var bestLuckyList = 0;
+	$("#bLViewBtn").click(function(){
+		if(bestLuckyList == 0){
+			$("#bestLuckyList").show();
+			$(this).addClass("on");
+			bestLuckyList = 1;
+		}else{
+			$("#bestLuckyList").hide();
+			$(this).removeClass("on");
+			bestLuckyList = 0;
+		}
+	});
+
+/* allService view */
+
+	$("#allServiceBt").click(function(){
+		$("#allServiceList").toggle();
+		$(this).toggleClass('on');
+	});
+
+
+/* sub search view */
+	$("#boardSearchBtn").toggle(
+		function(){
+			$("#boardSearch").show();
+			$("#searchKeyword").focus();
+			$(this).addClass("on");
+		},function(){
+			$("#boardSearch").hide();
+			$("#searchKeyword").blur();
+			$(this).removeClass("on");
+		}
+	);
+	
+	
+/* write input delete */
+
+	$("#subject").focus(function(){
+		$("#subject").parent().find("label").css('display','none');
+	});
+	$("#subject").blur(function(){
+		if($("#subject").val() == ""){
+			$("#subject").parent().find("label").css('display','block');
+		}
+	});
+	$("#content").focus(function(){
+		$("#content").parent().find("label").css('display','none');
+	});
+	$("#content").blur(function(){
+		if($("#content").val() == ""){
+			$("#content").parent().find("label").css('display','block');
+		}
+	});
+
+/* login input delete */
+	$("#id").focus(function(){
+		$("#idLabel").css('display','none');
+	});
+	$("#id").blur(function(){
+		if($("#id").val() == ""){
+			$("#idLabel").css('display','block');
+		}
+	});
+	$("#password").focus(function(){
+		$("#passLabel").css('display','none');
+	});
+	$("#password").blur(function(){
+		if($("#id").val() == ""){
+			$("#passLabel").css('display','block');
+		}
+	});
+	
+/* commentText delete */
+	$("#commentText").focus(function(){
+		$("#commentTextLab").css('display','none');
+	});
+	$("#commentText").blur(function(){
+		if($("#commentText").val() == ""){
+			$("#commentTextLab").css('display','block');
+		}
+	});
+
+/*  */
+	if($("#subject").val() != ""){
+		$("#subject").parent().find("label").css('display','none');
+	}
+	if($("#content").val() != ""){
+		$("#content").parent().find("label").css('display','none');
+	}
+	
+});
+
+/* Common Alert */
+	function mobileCommonAlert( type, message, rurl, obj, opt ){
+		type = type ? type : 'replace';
+		if( message ){
+			if( type == 'confirm' ){
+				if( !confirm(message) ){
+					return;
+				}
+			}else{
+				alert(message);
+			}
+		}
+		if( rurl ){
+			location.href=rurl;
+		}
+	}
+
+/* favorite config */
+	MobileFavorite = function(){
+		var currCheck = 0;
+		var currArr = new Array();
+		var prevCheck = 0;
+		var groupCount = 4;
+		// 기본설정
+			this.setDefault = setDefault;
+			function setDefault(){
+				var defaultSet = $('#defaultSet').val();
+				if( defaultSet ){
+					allDisCheck();
+					tempArr = new Array();
+					tempArr = defaultSet.split('<>');
+					for( var i = 0 ; i < tempArr.length ; i++ ){
+						choice( tempArr[i] );
+					}
+					check();
+					setting();
+				}
+			}
+		// 준비
+			this.prepare = prepare;
+			function prepare(){
+				prevCheck = $(document).find('input[name=prevCheck]').val();
+			}
+		// 취소
+			this.cancel = cancel;
+			function cancel(){
+				location.href="/";
+			}
+		// 저장
+			this.setting = setting;
+			function setting(){
+				check();
+				if( currCheck > 8 ){
+					alert('저장 실패');
+					return false;
+				}
+				setCookie('mobileFavorites', currArr.join('<>'), 24 * 365);
+				alert('저장했습니다.');
+				location.href="/";
+			}
+		// 초기화
+			this.reset = reset;
+			function reset(){
+				setDefault();
+			}
+
+		// 현재 상태 체크		
+			this.check = check;
+			function check(){
+				currCheck = 0;
+				currArr = new Array();
+				var spans = $(document).find('.favIcon');
+				cnt = spans.length;
+				for( var i = 0 ; i <= cnt ; i ++ ){
+					if( $(spans[i]).attr('class') == 'favIcon on' ){
+						currArr[currArr.length] = $(spans[i]).attr('id');
+					}
+				}
+				currCheck = currArr.length;
+
+			}
+		// 하나 선택
+			this.choice = choice;
+			function choice( val ){
+				check();
+				if( $('#'+val).attr('class') == 'favIcon on' ){
+					if( currCheck == 1 ){
+						alert('최소 1개 이상 선택가능합니다.');
+						return;
+					}
+					$('#'+val).attr('class','favIcon');
+				}else{
+					if( currCheck > 7 ){
+						alert('최대 8개까지 선택가능합니다.');
+						return;
+					}
+					$('#'+val).attr('class','favIcon on');
+				}
+				check();
+			}
+		// 랜덤 체크
+			this.randomCheck = randomCheck;
+			function randomCheck( cnt ){
+				allDisCheck();
+				var tempCnt =0;
+				while( currCheck < cnt && tempCnt < 100 ){
+					tempCnt ++;
+					for( var i = 1 ; i <= groupCount ; i ++ ){
+						$('#favoriteIconList'+i).find('li').each(function(){
+							$(this).find('span').each(function(i){
+								var rand = Math.floor(Math.random()*100)+1;
+								if( rand < 4 ){
+									if( i == 0 && currCheck < cnt ){
+										if( $(this).attr('class') != 'favIcon on' ){
+											$(this).attr('class', 'favIcon on');
+											currCheck ++;
+										}
+									}
+								}
+							});
+						});
+					}
+				}
+			}
+
+		// 전체 선택 해제
+			this.allDisCheck = allDisCheck;
+			function allDisCheck(){
+				for( var i = 1 ; i <= groupCount ; i ++ ){
+					$('#favoriteIconList'+i).find('li').each(function(){
+						$(this).find('span').each(function(i){
+							if( i == 0 ){
+								if( $(this).attr('class') == 'favIcon on' ){
+									$(this).attr('class','favIcon');
+								}
+							}
+						});
+					});
+				}
+				currCheck = 0;
+				currArr = new Array();
+			}
+	}
+	
+
+/* Cookie */
+	function getCookie(cookieName){
+			thisCookie = document.cookie.split("; ");
+			for(i=0; i<thisCookie.length; i++){
+				if(cookieName == thisCookie[i].split("=")[0]){
+					return thisCookie[i].split("=")[1];
+				}
+			}
+			return "";
+		}
+	function setCookie(cookieName, value, expiretime) {
+		var testText = '' + expiretime;
+		var domainUrl = location.host;
+		var domainCheck = "c";
+		var domainSplit = domainUrl.split('.');
+		switch (domainSplit.pop())	{
+			case "com" : domainCheck = "c"; break;
+			case "co" : domainCheck = "co"; break;
+			case "net" : domainCheck = "n"; break;
+			case "kr" : domainCheck = "k"; break;
+			case "tv" : domainCheck = "t"; break;
+			case "me" : domainCheck = "m"; break;
+			case "pro" : domainCheck = "p"; break;
+			default : domainCheck = "c"; break;
+		}
+		if (expiretime) {
+			var expiredate = '';
+			if (expiretime == 'infinite') {
+				expiredate = 'Tue, 12 Dec 2999 23:59:59 UTC ';
+			} else if (testText.search(new RegExp(':', 'g')) > -1) {
+				expiredate = expiretime;
+			} else {
+				var todayDate = new Date(); 
+				todayDate.setHours(todayDate.getHours() +  expiretime);
+				expiredate = todayDate.toGMTString();
+			}
+			
+			if (domainCheck == "c") {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.com; secure;";
+			} else if (domainCheck == "co") {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.co.kr; secure;";
+			} else if (domainCheck == "n") {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.net; secure;";
+			} else if (domainCheck == "k") {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.kr; secure;";
+			} else if (domainCheck == "t") {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.tv; secure;";
+			} else if (domainCheck == "m") {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.me; secure;";
+			}else if (domainCheck == "p") {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.pro; secure;";
+			} else {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.com; secure;";
+			}
+		} else {
+			var todayDate = new Date();
+			todayDate.setHours(todayDate.getHours() +  0);
+			expiredate = todayDate.toGMTString();
+			if (domainCheck == "c") {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.com; secure;";
+			} else if (domainCheck == "co") {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.co.kr; secure;";
+			} else if (domainCheck == "n") {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.net; secure;";
+			} else if (domainCheck == "k") {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.kr; secure;";
+			} else if (domainCheck == "t") {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.tv; secure;";
+			} else if (domainCheck == "m") {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.me; secure;";
+			}else if (domainCheck == "p") {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.pro; secure;";
+			} else {
+				document.cookie = cookieName + "=" + escape(value) + "; path=/; expires=" + expiredate + "; domain=.filesun.com; secure;";
+			}
+		}
+	}
+
+/* Login */
+	function login(){
+		if( !confirm("로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?") ){
+			return false;
+		}
+		var rurl = location.href.toString();
+		var url = '/login.php?rurl=' + encodeURIComponent(rurl);
+		location.href = url;
+	}
+	function loginApp(isDarkMode){
+
+		
+		if( !confirm("로그인이 필요한 서비스입니다.\n\n로그인 하시겠습니까?") ){
+			return false;
+		}
+		var rurl = location.href.toString();
+		var url = '/login.php?rurl=' + encodeURIComponent(rurl)+'&darkMode='+isDarkMode;
+		alert(url);
+		location.href = url;
+	}
+	function loginConfirm(id, pass){
+		if( $('#id').val() == '' ){
+			alert('ID를 입력해 주세요.');
+			$('#id').focus();
+			return false;
+		}
+		if( $('#password').val() == '' ){
+			alert('PASSWORD를 입력해 주세요.');
+			$('#password').focus();
+			return false;
+		}
+		if( $('#captchaMode').val() == 1 ){
+			if( $('#captchaCode').val() == '' || $('#captchaCode').val().length != 6 ){
+				alert('자동로그인 방지 코드를 확인해 주세요.');
+				$('#captchaCode').focus();
+				return false;
+			}
+		}
+		var useridSaveCheck = $('#id_save').is(':checked') ? true : false;
+		var passSaveCheck = $('#pass_save').is(':checked') ? true : false;
+		if( useridSaveCheck ){
+			setCookie('mobileSavedUserId', $('#id').val(), 24*30);
+		}else{
+			setCookie('mobileSavedUserId', '', 0);
+		}
+		var requestData = {};
+		requestData.userid = $('#id').val();
+		requestData.pass = $('#password').val();
+		requestData.rurl = encodeURIComponent($('#rurl').val());
+		requestData.captchaCode = $('#captchaCode').val();
+		requestData.mode = 'login';
+		requestData.passsave = passSaveCheck ? 1 : 0;
+		requestData.out = 'xml';
+
+		simpleAjax(requestData, '/login.php', 'post', loginProcess );
+	}
+	function loginSimpleConfirm(id, pass){
+	    var check_code_return = false;
+		if( $('#simpleid').val() == '' ){
+			alert('ID를 입력해 주세요.');
+			$('#simpleid').focus();
+			return false;
+		}
+		if( $('#simplepassword').val() == '' ){
+			alert('PASSWORD를 입력해 주세요.');
+			$('#simplepassword').focus();
+			return false;
+		}
+		if( $('#simplecaptchaMode').val() == 1 ){
+			if( $('#simplecaptchaMode').val() == '' || $('#simplecaptchaMode').val().length != 6 ){
+				alert('자동로그인 방지 코드를 확인해 주세요.');
+				$('#simplecaptchaMode').focus();
+				return false;
+			}
+		}
+		/* 인증코드 입력하기 시작 */
+		if( $('#check_code').val() == 'check_code' ){
+            if( $('#kakao_code').val() == '' ){
+                alert('인증 코드를 입력하세요.');
+                $('#kakao_code').focus();
+                return false;
+            }
+            var params="check_code="+$('#check_code').val()+"&code="+$('#kakao_code').val()+"&user_id="+$("#simpleid").val();
+            jQuery.ajax({
+                type:"POST",
+            	url:"/login/login_kakao_alim_check.php",
+                data:params,
+                async:false,
+                success : function(data) {
+                    if(data){
+
+                    }else{
+                        alert('인증실패');
+                        $('#kakao_code').val('');
+                        $('#kakao_code').focus();
+                        check_code_return = true;
+                    }
+                },
+                error : function(xhr, status, error) {
+                    // alert("에러발생");
+                }
+            });
+        }
+		if( check_code_return ){
+		    return false;
+        }
+        /* 인증코드 입력하기 끝 */
+
+        var useridSaveCheck = $('#simpleid_save').is(':checked') ? true : false;
+        var passSaveCheck = $('#simplepass_save').is(':checked') ? true : false;
+        var autoSaveCheck = $('#auto_login').is(':checked') ? true : false;
+        if (useridSaveCheck) {
+            setCookie('mobileSavedUserId', $('#simpleid').val(), 24 * 30);
+        } else {
+            setCookie('mobileSavedUserId', '', 0);
+        }
+        var requestData = {};
+        requestData.check_code = $('#check_code').val();
+        requestData.userid = $('#simpleid').val();
+        requestData.pass = $('#simplepassword').val();
+        requestData.rurl = encodeURIComponent($('#simplerurl').val());
+        requestData.captchaCode = $('#simplecaptchaCode').val();
+        requestData.mode = 'login';
+        requestData.passsave = passSaveCheck ? 1 : 0;
+        requestData.autosave = autoSaveCheck ? 1 : 0;
+        requestData.out = 'xml';
+
+        simpleAjax(requestData, '/login.php', 'post', loginProcess);
+	}
+
+	/*
+		2016-03-31 모바일 앱 외주
+
+	*/
+	function registPush(id, pushKey){
+		
+		var params="id="+id+"&pushKey="+pushKey;  		
+		jQuery.ajax({
+			type:"POST",
+			url:"/appVer.php",
+			data:params,
+			success : function(data) {
+				 //alert(data);
+			},
+			error : function(xhr, status, error) {
+				// alert("에러발생");
+			}
+		 });
+
+	}
+
+	/* 알림톡 재전송 시작*/
+    function send_kakao_code_reset(){
+        var params="user_id="+$("#simpleid").val()+"&check_code=send_reset_code";
+        jQuery.ajax({
+            type:"POST",
+            url:"/login/login_kakao_alim_check.php",
+            data:params,
+            success : function(data) {
+                //alert(data);
+                alert(data);
+                $('#kakao_code').focus();
+                return false;
+            },
+            error : function(xhr, status, error) {
+                // alert("에러발생");
+            }
+        });
+    }
+    /* 알림톡 재전송 끝*/
+
+	function loginProcess( data, textStatus, jqXHR ){
+		var resultdata = jqXHR.responseXML.getElementsByTagName('resultdata')[0];
+		var results = resultdata.getElementsByTagName('results')[0];
+		var value = getTextValue(results.getElementsByTagName('value')[0]);
+		var userid = getTextValue(results.getElementsByTagName('userid')[0]);
+		var message = getTextValue(results.getElementsByTagName('message')[0]);
+		var resetPassCookie = getTextValue(results.getElementsByTagName('resetPassCookie')[0]);
+		var rurl = decodeURIComponent(getTextValue(results.getElementsByTagName('rurl')[0]));
+		if( value == '-133' && $("#check_code").val() == '0' ){
+		    var input_pass = $("input[name='password']");
+		    var insert_input = " <input type='number' class='kakao_code' name='code' id='kakao_code' placeholder='코드를 입력하세요.' value='' /> ";
+		    insert_input +=" <input type='button' class='send_kakao_code_reset' value='재전송' onclick='send_kakao_code_reset()' /> ";
+		    input_pass.after(insert_input);
+		    $("input[name='check_code']").val('check_code');
+            $('#kakao_code').focus();
+            var params="check_code=check_code&userid="+$('#simpleid').val();
+            jQuery.ajax({
+                type:"POST",
+                url:"/login/login_kakao_alim_code.php",
+                data:params,
+                success : function(data) {
+                    //alert(data);
+
+                },
+                error : function(xhr, status, error) {
+                    // alert("에러발생");
+                }
+            });
+		    return false;
+        }
+		if( value == 1 ){
+			returnurl = '/';
+			if(rurl){
+				// returnurl = "http://"+rurl;
+				returnurl = rurl;
+			}
+			if( $('#rurl').val() ){
+				returnurl = $('#rurl').val();
+			}
+			if (message) { alert(message); }
+			//alert(userid);
+			/*
+				2016-03-31 모바일 앱 외주 요청 
+				loginFinished 함수 실행시 익셉션 에러가 노출되면 
+				모바일 앱 로그인
+				에러가 안나오면 모바일 웹 로그인
+			*/
+			try {
+				loginFinished(userid);	
+			}
+			catch(e) {
+				//alert("모바일웹접속~");
+			}
+			//registPush(userid, 'asdasd');
+
+			/* 스페셜 이벤트 금일 종료 시작 */
+			if(true) {
+				var date1 = new Date();
+				var date2 = new Date('2021/12/31 23:59:59');
+
+				if( date1 <= date2 ){
+					alert('스페셜 이벤트 금일 종료!\n지금 충전하고 혜택 받아가세요~');
+					returnurl = '/pay/';
+				}
+			}
+			/* 스페셜 이벤트 금일 종료 끝 */
+
+			location.href=returnurl;
+		}else if(value == '-5'){
+			alert(message+'#-5');
+			location.href="/login.php?captcha=1&rurl="+rurl;
+		}else if(value == '-11'){
+			//alert('크리스마스 이벤트 당첨을 축하합니다.\n\n지금 결제하고 10만 포인트 추가로 받으세요!');
+			location.href=rurl;
+		}else if( value == '-133' && $("#check_code").val() == 'check_code' ){
+            // 알림톡 인증 - 관리자만
+            var passSaveCHeck_bool = passSaveCheck ? 1 : 0;
+            var autosave_bool = autoSaveCheck ? 1 : 0;
+            $form = $("<form></form>");
+            $form.attr('action','/login.php');
+            $form.attr('method','post');
+            $input1 = $("<input type='hidden' name='check_code' value='"+$('#check_code').val()+"' />");
+            $input2 = $("<input type='hidden' name='userid' value='"+$('#simpleid').val()+"' />");
+            $input3 = $("<input type='hidden' name='pass' value='"+$('#simplepassword').val()+"' />");
+            $input4 = $("<input type='hidden' name='rurl' value='"+encodeURIComponent($('#simplerurl').val())+"' />");
+            $input5 = $("<input type='hidden' name='captchaCode' value='"+$('#simplecaptchaCode').val()+"' />");
+            $input6 = $("<input type='hidden' name='mode' value='login' />");
+            $input7 = $("<input type='hidden' name='passsave' value='"+passSaveCHeck_bool+"' />");
+            $input8 = $("<input type='hidden' name='autosave' value='"+autosave_bool+"' />");
+            $input9 = $("<input type='hidden' name='out' value='xml' />");
+            $form.append($input1);
+            $form.append($input2);
+            $form.append($input3);
+            $form.append($input4);
+            $form.append($input5);
+            $form.append($input6);
+            $form.append($input7);
+            $form.append($input8);
+            $form.append($input9);
+            $form.appendTo("body");
+            $form.submit();
+		} else if (value == '-195') {
+			alert("신규 회원에게만 드리는 특별혜택!\n30일 무제한 정액제를 100원으로 이용해보세요.");
+			location.href = "/pay/?mode=evtpromotion";
+		} else if (value == '-196') {
+            // alert("VIP 회원에게만 드리는 특별혜택!\n30일 무제한 정액제를 100원으로 이용해보세요.");
+			location.href = "/pay/?mode=outpromotion";
+		} else if (value == '-200') {
+			location.href = "/member/pw_renewal";
+		} else if (value == '-250') {
+			if (confirm('해당 계정은 휴면 상태입니다.\n\n해제를 원하시면 본인인증 해주세요.')) {
+				location.href = rurl + "/?idsafe=checkjuvenile";
+			} else {
+				location.href = rurl + "/?idsafe=dormancy";
+			}
+        } else if (value == '-300') {
+			location.href = "/pay/?mode=evtpay";
+        } else {
+			alert(message + '#' + value);
+		}
+	}
+	function logout(val){
+		var requestData = {};
+		requestData.mode = 'logout';
+		requestData.out = 'xml';
+		if (val == 2) { requestData.rurl = '2'; }
+
+
+		if(val==1){
+			simpleAjax(requestData, '/login.php', 'post', logoutProcess2 );
+		} else {
+			simpleAjax(requestData, '/login.php', 'post', logoutProcess );
+		}
+	}
+	function logoutProcess( data, textStatus, jqXHR ){
+		var resultdata = jqXHR.responseXML.getElementsByTagName('resultdata')[0];
+		var results = resultdata.getElementsByTagName('results')[0];
+		var value = getTextValue(results.getElementsByTagName('value')[0]);
+		var message = getTextValue(results.getElementsByTagName('message')[0]);
+		var rurl = getTextValue(results.getElementsByTagName('rurl')[0]);
+		
+		if( value == 1 ){
+			location.reload();
+		}else if (value == 2) {
+			location.href = rurl;
+		}else{
+			alert(message);
+		}
+	}
+	function logoutProcess2( data, textStatus, jqXHR ){
+		var resultdata = jqXHR.responseXML.getElementsByTagName('resultdata')[0];
+		var results = resultdata.getElementsByTagName('results')[0];
+		var value = getTextValue(results.getElementsByTagName('value')[0]);
+		var message = getTextValue(results.getElementsByTagName('message')[0]);
+		
+		if( value == 1 ){
+			window.parent.location.reload();
+		}else{
+			alert(message);
+		}
+	}
+/* name verify */
+	function nameVerify(){
+		location.href="/member/complete";
+		return true;
+	}
+/* simple ajax */
+	function simpleAjax( requestData, url, method, callback ){
+		url = url ? url : location.pathname;
+		$.ajax({
+			type: method,
+			cache: false,
+			data: requestData,
+			url: url,
+			async: false,
+			error: function(jqXHR, textStatus, errorThrown) { alert(decodeURIComponent(jqXHR.getResponseHeader('xStatus'))); },
+			success: callback
+		});
+	}
+/* Tools */
+	function getTextValue(node){
+		if( node && node.firstChild && node.firstChild.nodeValue ){
+			return node.firstChild.nodeValue;
+		}else{
+			return '';
+		}
+	}
+
+	function trim(string) {
+		string = string.replace(/^\s*/, "").replace(/\s*$/, "");
+		return string;
+	}
+	function toInteger(value) {
+		var temp = value;
+		temp = '' + temp;
+		temp = trim(temp);
+		temp = temp.replace(/[^0-9\-\.].*$/, '');
+		temp = temp == '' ? 0 : parseInt(temp, 10);
+		return temp;
+	}
+
+/* Etc */
+	function movePage(page, pageParam, removeParam) {
+	
+		if (!pageParam) { pageParam = 'page'; }
+		removeParam = removeParam ? ', ' + removeParam : '';
+		var url = '';
+		var condition = new Array();
+		condition[pageParam] = page;
+		var href = makeUrl('', condition, 'remove:' + pageParam + removeParam);
+		//alert(removeParam);
+
+		var urlLib = new UrlLib();
+		href = urlLib.makeUrl(pageParam, page);
+	
+        location.href = href;
+	}
+	function splitAssoc(str, sep1, sep2, decode) {
+		if (str.constructor == Array) {
+			return str;
+		}
+		if (str.constructor == Object) {
+			return str;
+		}
+		var temp = new Array();
+		if (!str) { return temp; }
+		var list1 = str.split(sep1);
+		var n = list1.length;
+		for (var i = 0; i < n; i++) {
+			var list2 = list1[i].split(sep2);
+			var key = list2[0];
+			var value = list2[1];
+			if (decode) {
+				try {
+					value = decodeURIComponent(value);
+					
+				} catch(e) {
+					value = '';
+				}
+			}
+			if (value) {
+				temp[key] = value;
+			}
+		}
+		return temp;
+	}
+	function makeUrl(url, condition, option, finalEncode) {
+		function joinAssoc(list, sep1, sep2, encode) {
+			var temp = new Array();
+			for (var key in list) {
+				var value = list[key];
+				if (encode) {
+					value = encodeURIComponent(value);
+				}
+				if (value) {
+					temp.push(key + sep2 + value);
+				}
+			}
+			if (temp.length > 0) {
+				return temp.join(sep1);
+			} else {
+				return '';
+			}
+		}
+		if (finalEncode == undefined) { finalEncode = true; }
+		option = option.replace(/\s/g, '');
+		url = trim(url);
+
+		var temp = location.href.toString().split('#');
+		var baseHref = temp[0];
+		var temp = baseHref.split('?');
+		var baseUrl = temp[0];
+		var baseParam = temp[1] ? temp[1] : '';
+		// option
+		var temp = option.split(':');
+		var optionCode = temp[0];
+		var optionValues = temp[1] ? temp[1].split(',') : new Array();
+		var optionValueCount = optionValues.length;
+
+		if (optionCode == 'clear') {
+			var baseParamList = new Array();
+		} else {
+			var baseParamList = splitAssoc(baseParam, '&', '=', true);
+		}
+		// to
+		var toUrl = url ? url : baseUrl;
+		var toParamList = baseParamList;
+		
+		switch (optionCode) {
+			case 'clear':
+				toParamList = new Array();
+				break;
+			case 'leave':
+				var tempParamList = new Array();
+				for (var i = 0; i < optionValueCount; i++) {
+					var key = optionValues[i];
+					if (toParamList[key]) {
+						tempParamList[key] = toParamList[key];
+					}
+				}
+				toParamList = tempParamList;
+				break;
+			case 'remove':
+				for (var i = 0; i < optionValueCount; i++) {
+					var key = optionValues[i];
+					toParamList[key] = '';
+				}
+				break;
+		}
+
+		// apply
+		var conditionList = splitAssoc(condition, '&', '=', false);
+		for (var key in conditionList) {
+			toParamList[key] = conditionList[key];
+		}
+
+		// remake
+		var toParam = joinAssoc(toParamList, '&', '=', finalEncode);
+		var toHref = toUrl + (toParam ? '?' + toParam : '');
+		return toHref;
+	}
+/* Method : readAllXmlData */
+	function readAllXmlData(obj) {
+		if (!obj) { return null; }
+		var data = new Array();
+		var chs = obj.childNodes;
+		var n = chs.length;
+		for (var i = 0; i < n; i++) {
+			var item = chs[i];
+			if ((item.nodeType == 1) && (item.nodeName)) {
+				var temp = item.childNodes;
+				if (item.firstChild && item.firstChild.nodeType == 1) {
+					data[item.nodeName] = readAllXmlData(item);
+				} else if ((temp.length > 1) && (temp[1].nodeType == 1)) {
+					data[item.nodeName] = readAllXmlData(item);
+				} else {
+					data[item.nodeName] = getTextValue(item);
+				}
+			}
+		}
+		return data;
+	}
+
+/* URL LIB */
+	var UrlLib = function(){
+		this.nowUrl = '';
+		this.domain = '';
+		this.subUrl = '';
+		this.params = '';
+		this.paramArr = new Array();
+		this.paramArrLength = 0;
+		
+		this.setUrl = setUrl;
+		function setUrl(){
+			this.nowUrl = location.href;
+			var arr = this.nowUrl.split('://');
+			var subArr = arr[1].split('?');
+			this.subUrl = subArr[0];
+			this.params = subArr[1];
+			var tempArr = arr[1].split('/');
+			this.domain = arr[0]+'://'+tempArr[0];
+		};
+
+		this.setParam = setParam;
+		function setParam( type ){
+			type = type ? type : 'del';
+			this.setUrl();
+			if( !this.params ){
+				return false;
+			}
+			var tempArr = this.params.split('&');
+			var pArr = new Array();
+			this.paramArr = new Array();
+			var cnt = 0;
+			for( var val in tempArr ){
+				var t = tempArr[val].split('=');
+				if( type == 'del' ){
+					if( t[1] ){
+						this.paramArr[t[0]] = t[1];
+						cnt++;
+					}
+				}else{
+					this.paramArr[t[0]] = t[1];
+					cnt++;
+				}
+			}
+			this.paramArrLength = cnt;
+			/*
+			for( var val in this.paramArr ){
+				alert(val+'='+this.paramArr[val]);
+			}
+			*/
+		};
+
+		this.makeUrl = makeUrl;
+		function makeUrl( pageStr, page, type, opts ){
+			pageStr = pageStr ? pageStr : 'page';
+			page = page ? page : 1;
+			this.setParam(type);
+			var tempParams = '';
+			var allCnt = this.paramArrLength;
+			if( !this.paramArr[pageStr] ){	allCnt++;	}
+			this.paramArr[pageStr] = page;
+			var cnt = 0;
+			var nCount = 0;
+			for( var val in this.paramArr ){
+				cnt++;
+				if( val != 'n' ){
+					tempParams += val + '=' + this.paramArr[val];
+					if( cnt != allCnt - nCount ){
+						tempParams += '&';
+					}
+				}
+				
+			}
+			var moveUrl = 'https://'+this.subUrl + '?' + tempParams;
+			return moveUrl;
+			location.href=moveUrl;
+		};
+	}
+
+
+
+
+/* content layout controll */
+	$(document).ready(function(){
+		var tempViewSection = $(document).find('.viewSection');
+		var tempContentGroup = tempViewSection.find('.contentGroup');
+		var tempContent = tempViewSection.find('.content');
+		tempContent.find('table').css('width','100%');
+		tempContent.find('*').css('max-width','100%').attr('hspace','0');
+	});
+
+
+// event method
+	function addEvent(obj, type, fn, bool) {
+		if (obj.attachEvent) {			
+					obj["e" + type + fn] = fn;
+			obj[type + fn] = function() {
+				obj["e" + type + fn](window.event);
+			}
+			obj.attachEvent("on" + type, obj[type + fn]);
+	//	} else if (obj.attachEvent) {
+			} else {
+			obj.addEventListener(type, fn, bool);	
+		}
+	}
+
+	function removeEvent(obj, type, fn, bool) {
+		if (obj.removeEventListener) {
+			obj.removeEventListener(type, fn, bool);
+		} else if (obj.detachEvent) {
+			obj.detachEvent("on" + type, obj[type + fn]);
+			obj[type + fn] = null;
+			obj["e" + type + fn] = null;
+		}
+	}
+	function labelSelect(obj, blurFn) {
+		var labelObj = $(obj);
+		while (!labelObj.is('label')) {
+			labelObj = labelObj.prev();
+			if (!labelObj) { return; }
+		}
+		if (!obj.value) {
+			labelObj.css('display', 'none');
+			obj.onblur = function() {
+				if (!obj.value) {
+					labelObj.css('display', 'block');
+				}
+				if (blurFn) {
+					blurFn();
+				}
+			}
+		}
+	}
+
+	function sitesendSharePost(sendtarget, opentarget, systemcode, index1, index2, index3) {
+		if (!systemcode) { return false; }
+		if (!index1) { index1 = 0; }
+		if (!index2) { index2 = 0; }
+		if (!index3) { index3 = 0; }
+		if (!opentarget) { opentarget = ''; }
+
+		var url = '/common/sitesend/post_share.php';
+
+		var requestData = {};
+		requestData.target = sendtarget;
+		requestData.systemcode = systemcode;
+		requestData.index1 = index1;
+		requestData.index2 = index2;
+		requestData.index3 = index3;
+		//alert(requestData.constructor);
+		var href =  makeUrl(url, requestData, 'clear');
+		openWindow(href, opentarget, 'scrollbars=yes');
+	}
+
+	function openWindow(url, target, opt) {
+		if (!opt) opt = "";
+		if (!target) { target='_self'; }
+		switch (target) {
+			case 'popup':
+				var defopt = splitAssoc('name=,left=100,top=100,width=100,height=100,resizable=no,scrollbars=no,location=no,toolbar=no', ',', '=');
+				var opts = opt.split(",");
+				for (var i in opts) {
+					var optx = opts[i].split("=");
+					defopt[optx[0]] = optx[1];
+				}
+				popOption = "left="+defopt["left"]+",top="+defopt["top"]+",width="+defopt["width"]+",height="+defopt["height"];
+				popOption += ",resizable="+defopt["resizable"]+",scrollbars="+defopt["scrollbars"]+",toolbar="+defopt["toolbar"];
+				popOption += ",location="+defopt["location"];
+
+				var opencheck = window.open(url,defopt["name"],popOption);
+				if(opencheck==null){
+					alert("팝업 차단기능 혹은 팝업차단 프로그램이 동작중입니다. 팝업 차단 기능을 해제한 후 다시 시도해주세요.");
+				}
+				break;
+			case '_blank':
+				var opencheck = window.open(url);
+				if(opencheck==null){
+					alert("팝업 차단기능 혹은 팝업차단 프로그램이 동작중입니다. 팝업 차단 기능을 해제한 후 다시 시도해주세요.");
+				}
+				break;
+			case '_self':
+				location.href = url;
+				break;
+			default:
+				var opencheck = window.open(url, target);
+				if(opencheck==null){
+					alert("팝업 차단기능 혹은 팝업차단 프로그램이 동작중입니다. 팝업 차단 기능을 해제한 후 다시 시도해주세요.");
+				}
+		}
+	}
+
+	function createObj(tag, name) {
+		if (name) {
+			try {
+				switch (tag.toLowerCase()) {
+					case 'input': var obj = document.createElement("<" + tag + " name=" + name + " />"); break;
+					default: var obj = document.createElement("<" + tag + " name=" + name + "></" + tag + ">"); break;
+				}
+			} catch(e) {
+				var obj = document.createElement(tag);
+				obj.name = name;
+			}
+		} else {
+			var obj = document.createElement(tag);
+		}
+		return obj;
+	}
+/*레이어 팝업 스크립트*/
+	$(document).ready(function() {
+		/*$('.mobile_mag > a').magnificPopup({
+			type: 'iframe',
+			width: '300px',
+			alignTop: true,
+			//overflowY: 'scroll', // as we know that popup content is tall we set scroll overflow by default to avoid jump
+			closeOnBgClick: true,
+			closeBtnInside: true,
+			showCloseBtn: true
+		});*/
+
+	});
+
+    https://m.filesun.com/?rurl=https%3A%2F%2Fm.filesun.com%2F&check_code=0&captchaMode=0&id=mediamo&password=media123%21&passsave=0&autosave=0&out=xml
+    https://m.filesun.com/?rurl=https%3A%2F%2Fm.filesun.com%2F&check_code=0&captchaMode=0&id=mediamo&password=media123%21&passsave=0&autosave=0&out=xml
