@@ -36,8 +36,8 @@ MySQL shell
 \c mysqlx://root:dmscks3927!@localhost
 \use rightwatch
 util.importJson("c:\\test_online.json", {schema: "rightwatch", table:"tmp_post",tableColumn: "json"});
-
-use rightwatch;
+# insert content_list
+INSERT INTO contents_list(title)  SELECT json->> '$."title"' FROM tmp_post
 
 CREATE  TABLE rightwatch.post ( 
 	id                   INT AUTO_INCREMENT PRIMARY KEY,
