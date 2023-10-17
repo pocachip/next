@@ -1,0 +1,647 @@
+swagger: "2.0"
+info:
+  description: "A GinBro RESTful APIs"
+  version: "1.0.0"
+  title: "GinBro RESTful APIs Application"
+host: "127.0.0.1:5555"
+basePath: "/api/v1"
+
+schemes:
+- "http"
+paths:
+  
+  
+  /check-list:
+    get:
+      tags:
+      - "check-list"
+      summary: "get all check-list by pagination"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "where"
+        in: "query"
+        description: "column:value will use sql LIKE for search eg:id:67 will where id >67 eg2: name:eric => where name LIKE '%eric%'"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      - name: "fields"
+        in: "query"
+        description: "{$tableColumn},{$tableColumn}... "
+        required: false
+        type: "string"
+      - name: "order"
+        in: "query"
+        description: "eg: id desc, name desc"
+        required: false
+        type: "string"
+      - name: "offset"
+        in: "query"
+        description: "sql offset eg: 10"
+        required: false
+        type: "integer"
+      - name: "limit"
+        in: "query"
+        default: "2"
+        description: "limit returning object count"
+        required: false
+        type: "integer"
+
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/CheckListPagination"
+    post:
+      tags:
+      - "check-list"
+      summary: "create check-list"
+      description: "create check-list"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "create check-list"
+        required: true
+        schema:
+          $ref: "#/definitions/CheckList"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+    patch:
+      tags:
+      - "check-list"
+      summary: "update check-list"
+      description: "update check-list"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "create check-list"
+        required: true
+        schema:
+          $ref: "#/definitions/CheckList"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+  /check-list/{Id}:
+    get:
+      tags:
+      - "check-list"
+      summary: "get a check-list by ID"
+      description: "get a check-list by ID"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "ID of check-list to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/CheckList"
+    delete:
+      tags:
+      - "check-list"
+      summary: "Destroy a check-list by ID"
+      description: "delete a check-list by ID"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "ID of check-list to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  
+  
+  /contents-list:
+    get:
+      tags:
+      - "contents-list"
+      summary: "get all contents-list by pagination"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "where"
+        in: "query"
+        description: "column:value will use sql LIKE for search eg:id:67 will where id >67 eg2: name:eric => where name LIKE '%eric%'"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      - name: "fields"
+        in: "query"
+        description: "{$tableColumn},{$tableColumn}... "
+        required: false
+        type: "string"
+      - name: "order"
+        in: "query"
+        description: "eg: id desc, name desc"
+        required: false
+        type: "string"
+      - name: "offset"
+        in: "query"
+        description: "sql offset eg: 10"
+        required: false
+        type: "integer"
+      - name: "limit"
+        in: "query"
+        default: "2"
+        description: "limit returning object count"
+        required: false
+        type: "integer"
+
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ContentsListPagination"
+    post:
+      tags:
+      - "contents-list"
+      summary: "create contents-list"
+      description: "create contents-list"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "create contents-list"
+        required: true
+        schema:
+          $ref: "#/definitions/ContentsList"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+    patch:
+      tags:
+      - "contents-list"
+      summary: "update contents-list"
+      description: "update contents-list"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "create contents-list"
+        required: true
+        schema:
+          $ref: "#/definitions/ContentsList"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+  /contents-list/{Id}:
+    get:
+      tags:
+      - "contents-list"
+      summary: "get a contents-list by ID"
+      description: "get a contents-list by ID"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "ID of contents-list to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ContentsList"
+    delete:
+      tags:
+      - "contents-list"
+      summary: "Destroy a contents-list by ID"
+      description: "delete a contents-list by ID"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "ID of contents-list to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  
+  
+  /post:
+    get:
+      tags:
+      - "post"
+      summary: "get all post by pagination"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "where"
+        in: "query"
+        description: "column:value will use sql LIKE for search eg:id:67 will where id >67 eg2: name:eric => where name LIKE '%eric%'"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      - name: "fields"
+        in: "query"
+        description: "{$tableColumn},{$tableColumn}... "
+        required: false
+        type: "string"
+      - name: "order"
+        in: "query"
+        description: "eg: id desc, name desc"
+        required: false
+        type: "string"
+      - name: "offset"
+        in: "query"
+        description: "sql offset eg: 10"
+        required: false
+        type: "integer"
+      - name: "limit"
+        in: "query"
+        default: "2"
+        description: "limit returning object count"
+        required: false
+        type: "integer"
+
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/PostPagination"
+    post:
+      tags:
+      - "post"
+      summary: "create post"
+      description: "create post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "create post"
+        required: true
+        schema:
+          $ref: "#/definitions/Post"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+    patch:
+      tags:
+      - "post"
+      summary: "update post"
+      description: "update post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "create post"
+        required: true
+        schema:
+          $ref: "#/definitions/Post"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+  /post/{Id}:
+    get:
+      tags:
+      - "post"
+      summary: "get a post by ID"
+      description: "get a post by ID"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "ID of post to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Post"
+    delete:
+      tags:
+      - "post"
+      summary: "Destroy a post by ID"
+      description: "delete a post by ID"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "ID of post to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  
+
+
+definitions:
+  
+  
+  CheckList:
+    type: "object"
+    properties:
+    
+      content_id:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      first_time:
+        type: "string"
+        description: ""
+        format: "date-time"
+      
+      id:
+        type: "integer"
+        description: ""
+        format: "int64"
+      
+      post_id:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      post_idx:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      post_txt:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      status:
+        type: "integer"
+        description: ""
+        format: "int64"
+      
+      update_time:
+        type: "string"
+        description: ""
+        format: "date-time"
+      
+  CheckListPagination:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        description: "json repose code"
+        format: "int32"
+      total:
+        type: "integer"
+        description: "total numbers"
+        format: "int32"
+      offset:
+        type: "integer"
+        description: "offset"
+        format: "int32"
+      limit:
+        type: "integer"
+        description: "limit"
+        format: "int32"
+      list:
+        type: "array"
+        items:
+          $ref: "#/definitions/CheckList"
+
+  
+  ContentsList:
+    type: "object"
+    properties:
+    
+      id:
+        type: "integer"
+        description: ""
+        format: "int64"
+      
+      title:
+        type: "string"
+        description: ""
+        format: "string"
+      
+  ContentsListPagination:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        description: "json repose code"
+        format: "int32"
+      total:
+        type: "integer"
+        description: "total numbers"
+        format: "int32"
+      offset:
+        type: "integer"
+        description: "offset"
+        format: "int32"
+      limit:
+        type: "integer"
+        description: "limit"
+        format: "int32"
+      list:
+        type: "array"
+        items:
+          $ref: "#/definitions/ContentsList"
+
+  
+  Post:
+    type: "object"
+    properties:
+    
+      attach_file_size:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      cat1_code:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      cat1_title:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      cat2_code:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      cat2_title:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      id:
+        type: "integer"
+        description: ""
+        format: "int64"
+      
+      idx:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      item_url:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      last_update:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      lvl19:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      partner:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      price:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      seller:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      txt:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      website:
+        type: "integer"
+        description: ""
+        format: "int64"
+      
+  PostPagination:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        description: "json repose code"
+        format: "int32"
+      total:
+        type: "integer"
+        description: "total numbers"
+        format: "int32"
+      offset:
+        type: "integer"
+        description: "offset"
+        format: "int32"
+      limit:
+        type: "integer"
+        description: "limit"
+        format: "int32"
+      list:
+        type: "array"
+        items:
+          $ref: "#/definitions/Post"
+
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      msg:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
