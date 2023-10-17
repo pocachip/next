@@ -91,7 +91,7 @@ npm start
 
 
 #github
-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
+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
 git config --global user.name "pocachip"
 git config --global user.email "parkseou@gmail.com"
 git rm --cached . -rf 
