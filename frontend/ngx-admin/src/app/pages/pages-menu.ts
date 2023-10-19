@@ -17,8 +17,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'grid-outline',
     children: [
       {
-        title: 'Contents Table',
+        title: 'Contents List',
         link: '/pages/rightwatch/contents-list',
+      },
+      {
+        title: 'Check List',
+        link: '/pages/rightwatch/check-list',
+      },
+      {
+        title: 'Post List',
+        link: '/pages/rightwatch/post-list',
       },
     ],
   },

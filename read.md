@@ -23,7 +23,10 @@ npm install --save-dev @angular/cli@latest
 
 
 #angular 
+ 0. ng version
  1. ng new angular-app
+ 2. ng g components comp-name
+
 
 
 #mysql
