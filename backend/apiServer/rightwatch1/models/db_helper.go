@@ -14,13 +14,16 @@ type PaginationQuery struct {
 	Where  string `form:"where"`
 	Fields string `form:"fields"`
 	Order  string `form:"order"`
-	Offset uint   `form:"offset"`
-	Limit  uint   `form:"limit"`
+	Offset int   `form:"offset"`
+	Limit  int   `form:"limit"`
+	Page   int   `form:"page"` 
+    TotalRows int `form:"total_rows"`    
+    TotalPages int `form:"total_pages"`   
 }
 
 //String to string
 func (pq *PaginationQuery) String() string {
-	return fmt.Sprintf("w=%v_f=%s_o=%s_of=%d_l=%d", pq.Where, pq.Fields, pq.Order, pq.Offset, pq.Limit)
+	return fmt.Sprintf("w=%v_f=%s_o=%s_of=%d_l=%d_p=%d_tr=%d_tp=%d", pq.Where, pq.Fields, pq.Order, pq.Offset, pq.Limit, pq.Page, pq.TotalRows, pq.TotalPages)
 }
 
 func crudAll(m interface{}, q *PaginationQuery, list interface{}) (total uint, err error) {
@@ -35,12 +38,20 @@ func crudAll(m interface{}, q *PaginationQuery, list interface{}) (total uint, e
 	if q.Order != "" {
 		tx = tx.Order(q.Order)
 	}
-	if q.Offset > 0 {
-		tx = tx.Offset(q.Offset)
-	}
 	if q.Limit <= 0 {
 		q.Limit = 15
 	}
+
+	if q.Page == 0 {
+		q.Page = 1
+	} else {
+		q.Offset = (q.Page - 1) * q.Limit 
+	}
+
+	if q.Offset > 0 {
+		tx = tx.Offset(q.Offset)
+	}
+
 	err = tx.Limit(q.Limit).Find(list).Error
 	return
 }

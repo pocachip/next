@@ -58,7 +58,7 @@ export class ContentsListComponent {
     endPoint: "http://127.0.0.1:5555/api/v1/contents-list",
     totalKey: "total",
     dataKey: "data",
-    pagerPageKey: "offset",
+    pagerPageKey: "page",
     pagerLimitKey: "limit",
     /*
     sortFieldKey: "id",
