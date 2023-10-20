@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ServerDataSource } from 'ng2-smart-table';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'ngx-post-list',
-  templateUrl: './post-list.component.html',
-  styleUrls: ['./post-list.component.scss']
+  selector: 'ngx-check-list-detail',
+  templateUrl: './check-list-detail.component.html',
+  styleUrls: ['./check-list-detail.component.scss']
 })
-export class PostListComponent {
-
-    settings = {
+export class CheckListDetailComponent implements OnInit {
+  settings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -29,81 +29,62 @@ export class PostListComponent {
         title: 'ID',
         type: 'number',
       },
-      website: {
-        title: 'website',
+      content_id: {
+        title: '콘텐츠ID',
         type: 'number',
       },
-      cat1_code: {
-        title: 'cat1_code',
+      post_id: {
+        title: 'post_id',
         type: 'string',
       },
-      cat2_code: {
-        title: 'cat2_code',
+      post_idx: {
+        title: 'post_idx',
         type: 'string',
       },
-      cat1_title: {
-        title: 'cat1_title',
-        type: 'string',
-      },
-      cat2_title: {
-        title: 'cat2_title',
-        type: 'string',
-      },
-      idx: {
+      post_txt: {
         title: 'idx',
         type: 'string',
       },
-      txt: {
-        title: 'txt',
-        type: 'string',
+      status: {
+        title: 'status',
+        type: 'integer',
       },
-      lvl19: {
-        title: 'lvl19',
-        type: 'string',
+      first_time: {
+        title: 'first_time',
+        type: 'date-time',
       },
-      price: {
-        title: 'payment',
-        type: 'string',
+      update_time: {
+        title: 'update_time',
+        type: 'date-time',
       },
-      seller: {
-        title: 'seller',
-        type: 'string',
-      },
-      partner: {
-        title: 'partnership',
-        type: 'string',
-      },
-      attach_file_size: {
-        title: 'attach_file_size',
-        type: 'string',
-      },
-      item_url: {
-        title: 'item_url',
-        type: 'string',
-      },
-      last_update: {
-        title: 'last_update',
-        type: 'string',
-      },
+    },
+    pager: {
+      display : true,
+      perPage: 20,
     },
   };
 
-  source: ServerDataSource;
-
- conf ={ 
-    endPoint: "http://127.0.0.1:5555/api/v1/post",
+  conf ={ 
+    endPoint: "http://127.0.0.1:5555/api/v1/check-list-detail?where1=content_id%3A",
     pagerPageKey: "page",
     pagerLimitKey: "limit",
     totalKey: "total",
     dataKey: "data",
-    /*
-    sortFieldKey: "cat1_code",
-    sortDirKey: "order",
-    */
+  }
+  source: ServerDataSource;
+
+  constructor(private route: ActivatedRoute, private http: HttpClient) { 
+    console.log("constructure")
   }
 
-  constructor(http: HttpClient) {
-    this.source = new ServerDataSource(http, this.conf)
+  ngOnInit(): void {
+    this.getData();
+  }
+  
+  getData(): void {
+    const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    this.conf.endPoint = this.conf.endPoint + id
+    this.source = new ServerDataSource(this.http, this.conf)
   }
 
   onSearch(query: string = '') {
@@ -121,8 +102,7 @@ export class PostListComponent {
   // second parameter specifying whether to perform 'AND' or 'OR' search 
   // (meaning all columns should contain search query or at least one)
   // 'AND' by default, so changing to 'OR' by setting false here
-  }
-
+  } 
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
       event.confirm.resolve();

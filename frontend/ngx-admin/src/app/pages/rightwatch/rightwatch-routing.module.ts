@@ -5,6 +5,7 @@ import { RightwatchComponent } from './rightwatch.component';
 import { ContentsListComponent } from './contents-list/contents-list.component'
 import { PostListComponent } from './post-list/post-list.component'
 import { CheckListComponent } from './check-list/check-list.component'
+import { CheckListDetailComponent } from './check-list-detail/check-list-detail.component';
 
 const routes: Routes = [{
   path: '',
@@ -17,6 +18,10 @@ const routes: Routes = [{
     {
       path: 'check-list',
       component: CheckListComponent,
+    },
+    {
+      path: 'check-list-detail/:id',
+      component: CheckListDetailComponent,
     },
     {
       path: 'post-list',

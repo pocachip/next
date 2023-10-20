@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
-import { LocalDataSource, ServerDataSource} from 'ng2-smart-table';
-//import { ServerSourceConf } from './server-source.conf';
+import { ActivatedRoute } from '@angular/router';
+import { ServerDataSource} from 'ng2-smart-table';
 import { HttpClient } from '@angular/common/http';
-
-import { SmartTableData } from '../../../@core/data/smart-table';
 
 @Component({
   selector: 'ngx-contents-list',
   templateUrl: './contents-list.component.html',
   styleUrls: ['./contents-list.component.scss']
 })
+
 export class ContentsListComponent { 
   settings = {
     add: {
@@ -30,6 +29,7 @@ export class ContentsListComponent {
       id: {
         title: 'ID',
         type: 'number',
+        width: '5px',
       },
       title: {
         title: 'contents_name',
@@ -44,17 +44,7 @@ export class ContentsListComponent {
 
   source: ServerDataSource;
 
- /*
- conf: ServerSourceConf;
-    protected static readonly SORT_FIELD_KEY = "_sort";
-    protected static readonly SORT_DIR_KEY = "_order";
-    protected static readonly PAGER_PAGE_KEY = "_page";
-    protected static readonly PAGER_LIMIT_KEY = "_limit";
-    protected static readonly FILTER_FIELD_KEY = "#field#_like";
-    protected static readonly TOTAL_KEY = "x-total-count";
-    protected static readonly DATA_KEY = "";
-*/
- conf ={ 
+  conf ={ 
     endPoint: "http://127.0.0.1:5555/api/v1/contents-list",
     totalKey: "total",
     dataKey: "data",
@@ -66,20 +56,16 @@ export class ContentsListComponent {
     */
   }
 
-  constructor(http: HttpClient) {
-   //  this.source = new ServerDataSource(http, { endPoint: 'http://127.0.0.1:5555/api/v1/contents-list' });
-    this.source = new ServerDataSource(http, this.conf)
+  constructor(http: HttpClient){
+    this.source = new ServerDataSource(http, this.conf);
   }
+
   onSearch(query: string = '') {
   this.source.setFilter([
     // fields we want to include in the search
     {
-      field: 'id',
-      search: query
-    },
-    {
       field: 'title',
-      search: query
+      search: query,
     },
   ], false); 
   // second parameter specifying whether to perform 'AND' or 'OR' search 
@@ -87,6 +73,9 @@ export class ContentsListComponent {
   // 'AND' by default, so changing to 'OR' by setting false here
   }
 
+  onUserRowSelect(event): void {
+    console.log(event.data.id);
+  }
 
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {

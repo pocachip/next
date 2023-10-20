@@ -2,9 +2,11 @@
   <nb-card-header>
     저작권 보호 컨텐츠 목록
   </nb-card-header>
-
   <nb-card-body>
-    <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
+    <input #search class="search" type="text" placeholder="Search..." (keydown.enter)="onSearch(search.value)">
+    <ng2-smart-table [settings]="settings" [source]="source" 
+      (userRowSelect)="onUserRowSelect($event)"
+      (deleteConfirm)="onDeleteConfirm($event)">
     </ng2-smart-table>
   </nb-card-body>
 </nb-card>
