@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SmartTableData } from '../data/smart-table';
-import { LocalDataSource } from 'ng2-smart-table';
+import { LocalDataSource, ServerDataSource } from 'ng2-smart-table';
 import { map } from 'rxjs/operators';
 
 @Injectable()
 //export class SmartTableService extends SmartTableData {
 export class SmartTableService extends LocalDataSource {
   lastRequestCount: number = 0;
+  m_url: string = '';
 
   constructor(protected http: HttpClient) {
     super();
@@ -17,8 +18,12 @@ export class SmartTableService extends LocalDataSource {
     return this.lastRequestCount;
   }
 
+  setUrl(url: string): void {
+     this.m_url = url;
+  }
+
   getElements(): Promise<any> {
-    let url = 'https://jsonplaceholder.typicode.com/photos?';
+    let url = this.m_url;
 
     if (this.sortConf) {
       this.sortConf.forEach((fieldConf) => {

@@ -6,6 +6,7 @@ import { ContentsListComponent } from './contents-list/contents-list.component'
 import { PostListComponent } from './post-list/post-list.component'
 import { CheckListComponent } from './check-list/check-list.component'
 import { CheckListDetailComponent } from './check-list-detail/check-list-detail.component';
+import { CheckPanelComponent } from './check-panel/check-panel.component'
 
 const routes: Routes = [{
   path: '',
@@ -20,12 +21,16 @@ const routes: Routes = [{
       component: CheckListComponent,
     },
     {
-      path: 'check-list-detail/:id',
+      path: 'check-list-detail',
       component: CheckListDetailComponent,
     },
     {
       path: 'post-list',
       component: PostListComponent,
+    },
+    {
+      path: 'check-panel',
+      component: CheckPanelComponent,
     },
   ],
 }];

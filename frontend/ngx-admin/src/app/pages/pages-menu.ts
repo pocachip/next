@@ -32,6 +32,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Post List',
         link: '/pages/rightwatch/post-list',
       },
+      {
+        title: 'Content Check Dashboard',
+        link: '/pages/rightwatch/check-panel',
+      }
     ],
   },
   {

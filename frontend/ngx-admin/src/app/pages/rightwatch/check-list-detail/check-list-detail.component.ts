@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ServerDataSource } from 'ng2-smart-table';
 import { HttpClient } from '@angular/common/http';
 
@@ -65,7 +65,7 @@ export class CheckListDetailComponent implements OnInit {
   };
 
   conf ={ 
-    endPoint: "http://127.0.0.1:5555/api/v1/check-list-detail?where1=content_id%3A",
+    endPoint: "http://127.0.0.1:5555/api/v1/check-list?where1=content_id%3A",
     pagerPageKey: "page",
     pagerLimitKey: "limit",
     totalKey: "total",
@@ -73,7 +73,7 @@ export class CheckListDetailComponent implements OnInit {
   }
   source: ServerDataSource;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) { 
+  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { 
     console.log("constructure")
   }
 
@@ -82,8 +82,11 @@ export class CheckListDetailComponent implements OnInit {
   }
   
   getData(): void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    console.log(this.route)
+    
+    const id = this.route.snapshot.queryParams.id;
     this.conf.endPoint = this.conf.endPoint + id
+    console.log(this.conf.endPoint)
     this.source = new ServerDataSource(this.http, this.conf)
   }
 

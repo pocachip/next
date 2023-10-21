@@ -7,6 +7,7 @@ import { RightwatchRoutingModule, routedComponents } from './rightwatch-routing.
 import { CheckListComponent } from './check-list/check-list.component';
 import { PostListComponent } from './post-list/post-list.component';
 import { CheckListDetailComponent } from './check-list-detail/check-list-detail.component';
+import { CheckPanelComponent } from './check-panel/check-panel.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { CheckListDetailComponent } from './check-list-detail/check-list-detail.
     CheckListComponent,
     PostListComponent,
     CheckListDetailComponent,
+    CheckPanelComponent,
   ],
 })
 export class RightwatchModule { }
