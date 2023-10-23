@@ -1,1 +1,10 @@
-<p>check-panel works!</p>
+<pane id="1" *ngIf="shouldShow">
+박은수 최고!!
+</pane>
+<pane id="2" *ngIf="!shouldShow">
+박은찬 최고!!
+</pane>
+
+<button (click)="toggle()">Toggle</button>
+
+<div>Selected: {{selectedPane}}</div>
