@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ServerDataSource} from 'ng2-smart-table';
 import { HttpClient } from '@angular/common/http';
@@ -10,6 +10,16 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class ContentsListComponent { 
+  @Input()
+    get selectedID(): string { return this._selectedID}
+    set selectedID(selected: string){
+      this._selectedID = selected;
+    }
+   
+  @Output() selectedEvent = new EventEmitter<string>();
+
+  private _selectedID  = '';
+
   settings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -74,7 +84,10 @@ export class ContentsListComponent {
   }
 
   onUserRowSelect(event): void {
-    console.log(event.data.id);
+    //console.log(event.data.id);
+    console.log(this);
+    this._selectedID= event.data.id;
+    this.selectedEvent.emit(this._selectedID)
   }
 
   onDeleteConfirm(event): void {
@@ -84,4 +97,6 @@ export class ContentsListComponent {
       event.confirm.reject();
     }
   }
+ 
+
 }

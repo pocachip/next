@@ -6,7 +6,6 @@
     <input #search class="search" type="text" placeholder="Search..." (keydown.enter)="onSearch(search.value)">
     <ng2-smart-table [settings]="settings" [source]="source" 
       (userRowSelect)="onUserRowSelect($event)"
-      (deleteConfirm)="onDeleteConfirm($event)">
-    </ng2-smart-table>
+      (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table>
   </nb-card-body>
 </nb-card>

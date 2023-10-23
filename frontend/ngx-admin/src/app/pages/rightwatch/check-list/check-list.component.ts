@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, Directive, Input, ViewChild } from '@angular/core';
 import { ServerDataSource} from 'ng2-smart-table';
 import { HttpClient } from '@angular/common/http';
 
@@ -8,6 +8,14 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./check-list.component.scss']
 })
 export class CheckListComponent {
+  @Input()
+    get contentID(): string { return this._contentID;}
+    set contentID(c_id: string){
+      this._contentID = c_id;
+    }
+  
+  private _contentID  = '';
+
   settings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -65,7 +73,8 @@ export class CheckListComponent {
 
   source: ServerDataSource;
 
- conf ={ 
+
+  conf ={ 
     endPoint: "http://127.0.0.1:5555/api/v1/check-list",
     pagerPageKey: "page",
     pagerLimitKey: "limit",
@@ -80,6 +89,7 @@ export class CheckListComponent {
   constructor(http: HttpClient){
     this.source = new ServerDataSource(http, this.conf)
   }
+  
 
   onSearch(query: string = '') {
     this.source.setFilter([

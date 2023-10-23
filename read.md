@@ -7,7 +7,15 @@ nvm ls-remote
 2. rmp run got some error('Server bla bla...')
 3. npm i --save @types/ws@8.5.4
 
-
+#code style
+1. Camel case
+	camel case => camelCase
+2. Kebab case
+	kebab case => kebab-case
+3. Snake case
+	snake case => SNAKE_CASE
+4. Pascal case
+	pascal case => PascalCase
 
 #ngx-admin starter-kit install 시 python2를 찾아서 깔어줌
 python2 설치 

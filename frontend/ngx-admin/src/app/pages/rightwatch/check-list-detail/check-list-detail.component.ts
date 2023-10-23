@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ServerDataSource } from 'ng2-smart-table';
 import { HttpClient } from '@angular/common/http';
@@ -9,6 +9,17 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./check-list-detail.component.scss']
 })
 export class CheckListDetailComponent implements OnInit {
+  @Input()
+    get contentid(): string { return this._contentid;}
+    set contentid(c_id: string){
+      console.log("checklistdetail set func");
+      console.log(c_id);
+      this._contentid = c_id;
+      this.setEndPoint(this._contentid);
+    }
+  
+  _contentid: string  = '';
+
   settings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -65,7 +76,8 @@ export class CheckListDetailComponent implements OnInit {
   };
 
   conf ={ 
-    endPoint: "http://127.0.0.1:5555/api/v1/check-list?where1=content_id%3A",
+    //endPoint: "http://127.0.0.1:5555/api/v1/check-list?where1=content_id%3A",
+    endPoint: "http://127.0.0.1:5555/api/v1/check-list",
     pagerPageKey: "page",
     pagerLimitKey: "limit",
     totalKey: "total",
@@ -79,15 +91,22 @@ export class CheckListDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
+    console.log(this);
   }
   
   getData(): void {
-    console.log(this.route)
-    
-    const id = this.route.snapshot.queryParams.id;
-    this.conf.endPoint = this.conf.endPoint + id
-    console.log(this.conf.endPoint)
     this.source = new ServerDataSource(this.http, this.conf)
+  }
+
+  reload(){
+    this.source.refresh();
+  }
+
+  setEndPoint(contentid: string){
+    this.conf.endPoint = "http://127.0.0.1:5555/api/v1/check-list?where1=content_id%3A"+this._contentid;
+    console.log("setEndPoint");
+    console.log(this.conf.endPoint)
+    this.reload();
   }
 
   onSearch(query: string = '') {

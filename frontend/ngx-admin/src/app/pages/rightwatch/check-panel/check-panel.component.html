@@ -1,6 +1,13 @@
 <ngxPanel id="1" *ngIf="shouldShow">panel 1</ngxPanel>
 <ngxPanel id="2" *ngIf="!shouldShow">panel 2</ngxPanel>
-
 <button (click)="toggle()">Toggle</button>
 
 <div>Selected: {{selectedPane}}</div>
+<div class="row">
+      <div class="col-md-6">
+        <ngx-contents-list (selectedEvent)="changeContent($event)"> this is content_list</ngx-contents-list>
+      </div>
+      <div class="col-md-6">
+        <ngx-check-list-detail [contentid]="contentid">this is detail</ngx-check-list-detail>
+      </div>
+</div>
