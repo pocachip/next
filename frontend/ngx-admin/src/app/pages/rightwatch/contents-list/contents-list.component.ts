@@ -21,6 +21,15 @@ export class ContentsListComponent {
   private _selectedID  = '';
 
   settings = {
+    editable: false,
+    noDataMessage: 'No data could be found here.',
+    actions: {
+        delete: false,
+        add: false,
+        edit: false,
+        position: 'right'
+    },
+    /*
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -35,6 +44,7 @@ export class ContentsListComponent {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
     },
+    */
     columns: {
       id: {
         title: 'ID',

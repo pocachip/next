@@ -12,15 +12,22 @@ export class CheckListDetailComponent implements OnInit {
   @Input()
     get contentid(): string { return this._contentid;}
     set contentid(c_id: string){
-      console.log("checklistdetail set func");
-      console.log(c_id);
       this._contentid = c_id;
       this.setEndPoint(this._contentid);
     }
   
-  _contentid: string  = '';
+  _contentid: string = '';  
 
   settings = {
+    editable: false,
+    noDataMessage: 'No data could be found here.',
+    actions: {
+        delete: false,
+        add: false,
+        edit: false,
+        position: 'right'
+    },
+    /*
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -35,6 +42,7 @@ export class CheckListDetailComponent implements OnInit {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
     },
+    */
     columns: {
       id: {
         title: 'ID',
@@ -53,7 +61,7 @@ export class CheckListDetailComponent implements OnInit {
         type: 'string',
       },
       post_txt: {
-        title: 'idx',
+        title: 'txt',
         type: 'string',
       },
       status: {
@@ -76,7 +84,7 @@ export class CheckListDetailComponent implements OnInit {
   };
 
   conf ={ 
-    //endPoint: "http://127.0.0.1:5555/api/v1/check-list?where1=content_id%3A",
+//    endPoint: "http://127.0.0.1:5555/api/v1/check-list?where1=content_id%3A1",
     endPoint: "http://127.0.0.1:5555/api/v1/check-list",
     pagerPageKey: "page",
     pagerLimitKey: "limit",
@@ -84,28 +92,38 @@ export class CheckListDetailComponent implements OnInit {
     dataKey: "data",
   }
   source: ServerDataSource;
+  isAdmin: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { 
-    console.log("constructure")
   }
 
   ngOnInit(): void {
     this.getData();
+    this.hideColumnForUser();
     console.log(this);
   }
   
+  hideColumnForUser(){
+    if(!this.isAdmin){
+        delete this.settings.columns.id;
+        delete this.settings.columns.content_id;
+        delete this.settings.columns.post_id;
+        delete this.settings.columns.post_idx;
+        delete this.settings.columns.status;
+        delete this.settings.columns.first_time;
+        delete this.settings.columns.update_time;
+    }
+  }
   getData(): void {
     this.source = new ServerDataSource(this.http, this.conf)
   }
 
   reload(){
-    this.source.refresh();
+    this.getData();
   }
 
   setEndPoint(contentid: string){
     this.conf.endPoint = "http://127.0.0.1:5555/api/v1/check-list?where1=content_id%3A"+this._contentid;
-    console.log("setEndPoint");
-    console.log(this.conf.endPoint)
     this.reload();
   }
 
