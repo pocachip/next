@@ -1,20 +1,20 @@
 package handlers
 
 import (
-	"rightwatch1/models"
+	"rightwatch/models"
 	"github.com/gin-gonic/gin"
 )
 
 func init() {
-	groupApi.GET("contents-list", contentsListAll)
-	groupApi.GET("contents-list/:id",  contentsListOne)
-	groupApi.POST("contents-list",  contentsListCreate)
-	groupApi.PATCH("contents-list",  contentsListUpdate)
-	groupApi.DELETE("contents-list/:id",  contentsListDelete)
+	groupApi.GET("synonym-word", synonymWordAll)
+	groupApi.GET("synonym-word/:id",  synonymWordOne)
+	groupApi.POST("synonym-word",  synonymWordCreate)
+	groupApi.PATCH("synonym-word",  synonymWordUpdate)
+	groupApi.DELETE("synonym-word/:id",  synonymWordDelete)
 }
 //All
-func contentsListAll(c *gin.Context) {
-	mdl := models.ContentsList{}
+func synonymWordAll(c *gin.Context) {
+	mdl := models.SynonymWord{}
 	query := &models.PaginationQuery{}
 	err := c.ShouldBindQuery(query)
 	if handleError(c, err) {
@@ -27,8 +27,8 @@ func contentsListAll(c *gin.Context) {
 	jsonPagination(c, list, total, query)
 }
 //One
-func contentsListOne(c *gin.Context) {
-	var mdl models.ContentsList
+func synonymWordOne(c *gin.Context) {
+	var mdl models.SynonymWord
 	id, err := parseParamID(c)
 	if handleError(c, err) {
 		return
@@ -41,8 +41,8 @@ func contentsListOne(c *gin.Context) {
 	jsonData(c, data)
 }
 //Create
-func contentsListCreate(c *gin.Context) {
-	var mdl models.ContentsList
+func synonymWordCreate(c *gin.Context) {
+	var mdl models.SynonymWord
 	err := c.ShouldBind(&mdl)
 	if handleError(c, err) {
 		return
@@ -54,8 +54,8 @@ func contentsListCreate(c *gin.Context) {
 	jsonData(c, mdl)
 }
 //Update
-func contentsListUpdate(c *gin.Context) {
-	var mdl models.ContentsList
+func synonymWordUpdate(c *gin.Context) {
+	var mdl models.SynonymWord
 	err := c.ShouldBind(&mdl)
 	if handleError(c, err) {
 		return
@@ -67,8 +67,8 @@ func contentsListUpdate(c *gin.Context) {
 	jsonSuccess(c)
 }
 //Delete
-func contentsListDelete(c *gin.Context) {
-	var mdl models.ContentsList
+func synonymWordDelete(c *gin.Context) {
+	var mdl models.SynonymWord
 	id, err := parseParamID(c)
 	if handleError(c, err) {
 		return

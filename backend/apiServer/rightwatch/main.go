@@ -1,9 +1,9 @@
 package main
 
 import (
-	_ "rightwatch1/config"
-	"rightwatch1/handlers"
-	"rightwatch1/tasks"
+	_ "rightwatch/config"
+	"rightwatch/handlers"
+	"rightwatch/tasks"
 	"github.com/spf13/viper"
 )
 

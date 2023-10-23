@@ -1,4 +1,4 @@
-module rightwatch1
+module rightwatch
 
 go 1.21.1
 

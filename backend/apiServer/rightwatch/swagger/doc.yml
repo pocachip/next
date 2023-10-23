@@ -283,6 +283,142 @@ paths:
             $ref: "#/definitions/ApiResponse"
   
   
+  /crawler-job:
+    get:
+      tags:
+      - "crawler-job"
+      summary: "get all crawler-job by pagination"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "where"
+        in: "query"
+        description: "column:value will use sql LIKE for search eg:id:67 will where id >67 eg2: name:eric => where name LIKE '%eric%'"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      - name: "fields"
+        in: "query"
+        description: "{$tableColumn},{$tableColumn}... "
+        required: false
+        type: "string"
+      - name: "order"
+        in: "query"
+        description: "eg: id desc, name desc"
+        required: false
+        type: "string"
+      - name: "offset"
+        in: "query"
+        description: "sql offset eg: 10"
+        required: false
+        type: "integer"
+      - name: "limit"
+        in: "query"
+        default: "2"
+        description: "limit returning object count"
+        required: false
+        type: "integer"
+
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/CrawlerJobPagination"
+    post:
+      tags:
+      - "crawler-job"
+      summary: "create crawler-job"
+      description: "create crawler-job"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "create crawler-job"
+        required: true
+        schema:
+          $ref: "#/definitions/CrawlerJob"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+    patch:
+      tags:
+      - "crawler-job"
+      summary: "update crawler-job"
+      description: "update crawler-job"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "create crawler-job"
+        required: true
+        schema:
+          $ref: "#/definitions/CrawlerJob"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+  /crawler-job/{Id}:
+    get:
+      tags:
+      - "crawler-job"
+      summary: "get a crawler-job by ID"
+      description: "get a crawler-job by ID"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "ID of crawler-job to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/CrawlerJob"
+    delete:
+      tags:
+      - "crawler-job"
+      summary: "Destroy a crawler-job by ID"
+      description: "delete a crawler-job by ID"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "ID of crawler-job to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  
+  
   /post:
     get:
       tags:
@@ -418,6 +554,142 @@ paths:
           schema:
             $ref: "#/definitions/ApiResponse"
   
+  
+  /synonym-word:
+    get:
+      tags:
+      - "synonym-word"
+      summary: "get all synonym-word by pagination"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "where"
+        in: "query"
+        description: "column:value will use sql LIKE for search eg:id:67 will where id >67 eg2: name:eric => where name LIKE '%eric%'"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+      - name: "fields"
+        in: "query"
+        description: "{$tableColumn},{$tableColumn}... "
+        required: false
+        type: "string"
+      - name: "order"
+        in: "query"
+        description: "eg: id desc, name desc"
+        required: false
+        type: "string"
+      - name: "offset"
+        in: "query"
+        description: "sql offset eg: 10"
+        required: false
+        type: "integer"
+      - name: "limit"
+        in: "query"
+        default: "2"
+        description: "limit returning object count"
+        required: false
+        type: "integer"
+
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/SynonymWordPagination"
+    post:
+      tags:
+      - "synonym-word"
+      summary: "create synonym-word"
+      description: "create synonym-word"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "create synonym-word"
+        required: true
+        schema:
+          $ref: "#/definitions/SynonymWord"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+    patch:
+      tags:
+      - "synonym-word"
+      summary: "update synonym-word"
+      description: "update synonym-word"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "create synonym-word"
+        required: true
+        schema:
+          $ref: "#/definitions/SynonymWord"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+
+  /synonym-word/{Id}:
+    get:
+      tags:
+      - "synonym-word"
+      summary: "get a synonym-word by ID"
+      description: "get a synonym-word by ID"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "ID of synonym-word to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/SynonymWord"
+    delete:
+      tags:
+      - "synonym-word"
+      summary: "Destroy a synonym-word by ID"
+      description: "delete a synonym-word by ID"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "ID of synonym-word to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  
 
 
 definitions:
@@ -531,6 +803,70 @@ definitions:
           $ref: "#/definitions/ContentsList"
 
   
+  CrawlerJob:
+    type: "object"
+    properties:
+    
+      boundary:
+        type: "integer"
+        description: ""
+        format: "int64"
+      
+      cat1_code:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      end_time:
+        type: "string"
+        description: ""
+        format: "date-time"
+      
+      id:
+        type: "integer"
+        description: ""
+        format: "int64"
+      
+      result:
+        type: "string"
+        description: ""
+        format: "string"
+      
+      start_time:
+        type: "string"
+        description: ""
+        format: "date-time"
+      
+      website:
+        type: "integer"
+        description: ""
+        format: "int64"
+      
+  CrawlerJobPagination:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        description: "json repose code"
+        format: "int32"
+      total:
+        type: "integer"
+        description: "total numbers"
+        format: "int32"
+      offset:
+        type: "integer"
+        description: "offset"
+        format: "int32"
+      limit:
+        type: "integer"
+        description: "limit"
+        format: "int32"
+      list:
+        type: "array"
+        items:
+          $ref: "#/definitions/CrawlerJob"
+
+  
   Post:
     type: "object"
     properties:
@@ -633,6 +969,50 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Post"
+
+  
+  SynonymWord:
+    type: "object"
+    properties:
+    
+      id:
+        type: "integer"
+        description: ""
+        format: "int64"
+      
+      pair_id:
+        type: "integer"
+        description: ""
+        format: "int64"
+      
+      synonym:
+        type: "string"
+        description: ""
+        format: "string"
+      
+  SynonymWordPagination:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        description: "json repose code"
+        format: "int32"
+      total:
+        type: "integer"
+        description: "total numbers"
+        format: "int32"
+      offset:
+        type: "integer"
+        description: "offset"
+        format: "int32"
+      limit:
+        type: "integer"
+        description: "limit"
+        format: "int32"
+      list:
+        type: "array"
+        items:
+          $ref: "#/definitions/SynonymWord"
 
   ApiResponse:
     type: "object"

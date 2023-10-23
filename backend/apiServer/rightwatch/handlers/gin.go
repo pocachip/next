@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"fmt"
-	"rightwatch1/models"
+	"rightwatch/models"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/autotls"
 	"github.com/gin-gonic/gin"

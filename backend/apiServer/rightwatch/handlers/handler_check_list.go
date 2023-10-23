@@ -1,20 +1,20 @@
 package handlers
 
 import (
-	"rightwatch1/models"
+	"rightwatch/models"
 	"github.com/gin-gonic/gin"
 )
 
 func init() {
-	groupApi.GET("post", postAll)
-	groupApi.GET("post/:id",  postOne)
-	groupApi.POST("post",  postCreate)
-	groupApi.PATCH("post",  postUpdate)
-	groupApi.DELETE("post/:id",  postDelete)
+	groupApi.GET("check-list", checkListAll)
+	groupApi.GET("check-list/:id",  checkListOne)
+	groupApi.POST("check-list",  checkListCreate)
+	groupApi.PATCH("check-list",  checkListUpdate)
+	groupApi.DELETE("check-list/:id",  checkListDelete)
 }
 //All
-func postAll(c *gin.Context) {
-	mdl := models.Post{}
+func checkListAll(c *gin.Context) {
+	mdl := models.CheckList{}
 	query := &models.PaginationQuery{}
 	err := c.ShouldBindQuery(query)
 	if handleError(c, err) {
@@ -27,8 +27,8 @@ func postAll(c *gin.Context) {
 	jsonPagination(c, list, total, query)
 }
 //One
-func postOne(c *gin.Context) {
-	var mdl models.Post
+func checkListOne(c *gin.Context) {
+	var mdl models.CheckList
 	id, err := parseParamID(c)
 	if handleError(c, err) {
 		return
@@ -41,8 +41,8 @@ func postOne(c *gin.Context) {
 	jsonData(c, data)
 }
 //Create
-func postCreate(c *gin.Context) {
-	var mdl models.Post
+func checkListCreate(c *gin.Context) {
+	var mdl models.CheckList
 	err := c.ShouldBind(&mdl)
 	if handleError(c, err) {
 		return
@@ -54,8 +54,8 @@ func postCreate(c *gin.Context) {
 	jsonData(c, mdl)
 }
 //Update
-func postUpdate(c *gin.Context) {
-	var mdl models.Post
+func checkListUpdate(c *gin.Context) {
+	var mdl models.CheckList
 	err := c.ShouldBind(&mdl)
 	if handleError(c, err) {
 		return
@@ -67,8 +67,8 @@ func postUpdate(c *gin.Context) {
 	jsonSuccess(c)
 }
 //Delete
-func postDelete(c *gin.Context) {
-	var mdl models.Post
+func checkListDelete(c *gin.Context) {
+	var mdl models.CheckList
 	id, err := parseParamID(c)
 	if handleError(c, err) {
 		return
