@@ -1,8 +1,8 @@
 import { Component, OnDestroy, Directive, Input, ViewChild } from '@angular/core';
 import { takeWhile } from 'rxjs/operators';
 
-@Directive({selector: '[ngx-Pane]'})
-export class Pane {
+@Directive({selector: '[ngxPanel]'})
+export class Panel {
   @Input() id!: string;
 }
 
@@ -13,8 +13,8 @@ export class Pane {
 })
 
 export class CheckPanelComponent implements OnDestroy {
-  @ViewChild(Pane)
-    set pane(v: Pane) {
+  @ViewChild(Panel)
+    set pane(v: Panel) {
     setTimeout(() => {
       this.selectedPane = v.id;
     }, 0);
