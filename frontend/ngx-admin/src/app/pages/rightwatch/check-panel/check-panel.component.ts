@@ -1,7 +1,7 @@
 import { Component, OnDestroy, Directive, Input, ViewChild } from '@angular/core';
 import { takeWhile } from 'rxjs/operators';
 
-@Directive({selector: '[pane]'})
+@Directive({selector: '[ngx-Pane]'})
 export class Pane {
   @Input() id!: string;
 }
