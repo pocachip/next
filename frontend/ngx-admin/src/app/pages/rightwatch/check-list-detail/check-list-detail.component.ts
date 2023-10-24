@@ -1,7 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ServerDataSource } from 'ng2-smart-table';
 import { HttpClient } from '@angular/common/http';
+import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+
+interface con_interface {
+  id: string;
+  title: string;
+}
 
 @Component({
   selector: 'ngx-check-list-detail',
@@ -9,15 +15,17 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./check-list-detail.component.scss']
 })
 export class CheckListDetailComponent implements OnInit {
+  @ViewChild('changetitle') changetitle: ElementRef; 
   @Input()
-    get contentid(): string { return this._contentid;}
-    set contentid(c_id: string){
-      this._contentid = c_id;
-      this.setEndPoint(this._contentid);
+    get content(): con_interface { return this._content;}
+    set content(in_content: con_interface){
+      if(in_content){
+        this._content = in_content;
+        this.setEndPoint(this._content.id);
+      }
     }
-  
-  _contentid: string = '';  
 
+  _content:con_interface={id:'1',title:''};
   settings = {
     editable: false,
     noDataMessage: 'No data could be found here.',
@@ -55,14 +63,23 @@ export class CheckListDetailComponent implements OnInit {
       post_id: {
         title: 'post_id',
         type: 'string',
+        width: '5px',
       },
       post_idx: {
         title: 'post_idx',
         type: 'string',
       },
       post_txt: {
-        title: 'txt',
+        title: '게시글제목',
         type: 'string',
+        /*
+        valuePrepareFunction: (title, row) => {
+            console.log("valuePrepareFunction");
+            console.log(row);
+            //return this.sanitizer.bypassSecurityTrustHtml(`<h6 class="text-white p-t-0 qlz-line-height text-center"><strong>${title} gal </strong> </h6>`);
+            return this.pocachip(title, row);
+        },
+        */
       },
       status: {
         title: 'status',
@@ -94,9 +111,16 @@ export class CheckListDetailComponent implements OnInit {
   source: ServerDataSource;
   isAdmin: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { 
+  constructor(private sanitizer: DomSanitizer, private http: HttpClient) { 
   }
 
+  pocachip(instr:string, instr2:any): any {
+    let rtnStr = '';
+    rtnStr = this._content.title +">>>"+instr;
+    this.changetitle.nativeElement.innerHTML = this.sanitizer.bypassSecurityTrustHtml(`<h6 class="text-white p-t-0 qlz-line-height text-center" style="background:#ff0000;"><strong>${instr} gal </strong> </h6>`);
+    return this.sanitizer.bypassSecurityTrustHtml(`<h6 class="text-white p-t-0 qlz-line-height text-center" style="background::#ff0000"><strong>${instr} gal </strong> </h6>`);
+    //return rtnStr;
+  }
   ngOnInit(): void {
     this.getData();
     this.hideColumnForUser();
@@ -107,7 +131,7 @@ export class CheckListDetailComponent implements OnInit {
     if(!this.isAdmin){
         delete this.settings.columns.id;
         delete this.settings.columns.content_id;
-        delete this.settings.columns.post_id;
+        //delete this.settings.columns.post_id;
         delete this.settings.columns.post_idx;
         delete this.settings.columns.status;
         delete this.settings.columns.first_time;
@@ -123,7 +147,7 @@ export class CheckListDetailComponent implements OnInit {
   }
 
   setEndPoint(contentid: string){
-    this.conf.endPoint = "http://127.0.0.1:5555/api/v1/check-list?where1=content_id%3A"+this._contentid;
+    this.conf.endPoint = "http://127.0.0.1:5555/api/v1/check-list?where1=content_id%3A"+this._content.id;
     this.reload();
   }
 

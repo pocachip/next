@@ -3,6 +3,11 @@ import { takeWhile } from 'rxjs/operators';
 import { ContentsListComponent } from '../contents-list/contents-list.component';
 import {CheckListDetailComponent} from '../check-list-detail/check-list-detail.component'
 
+interface con_interface {
+  id: string;
+  title: string;
+}
+
 @Component({
   selector: 'ngx-check-panel',
   templateUrl: './check-panel.component.html',
@@ -15,10 +20,11 @@ export class CheckPanelComponent implements OnDestroy {
   @ViewChild(CheckListDetailComponent) check_list: any; 
 
   private alive = true;
-  contentid: string = '1';
+  content: con_interface ={id:'1', title:''};
 
-  changeContent(c_id: string){
-      this.contentid = c_id;
+  changeContent(c_in: con_interface){
+    console.log("Parent changeContent");
+    this.content = c_in;
   }
 
   constructor() { }
@@ -28,6 +34,5 @@ export class CheckPanelComponent implements OnDestroy {
   }
 
   ngAfterViewInit(){
-
   }
 }

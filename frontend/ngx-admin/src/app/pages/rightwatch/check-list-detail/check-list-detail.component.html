@@ -1,10 +1,1 @@
-<nb-card>
-  <nb-card-header>
-    저작권 보호 체크리스트 목록 {{_contentid}}
-  </nb-card-header>
-
-  <nb-card-body>
-    <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
-    </ng2-smart-table>
-  </nb-card-body>
-</nb-card>
+<ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">

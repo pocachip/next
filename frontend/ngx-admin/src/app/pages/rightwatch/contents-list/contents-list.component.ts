@@ -52,7 +52,7 @@ export class ContentsListComponent {
         width: '5px',
       },
       title: {
-        title: 'contents_name',
+        title: '콘텐츠명',
         type: 'string',
       },
     },
@@ -95,8 +95,10 @@ export class ContentsListComponent {
 
   onUserRowSelect(event): void {
     //console.log(event.data.id);
-    console.log(this);
-    this._selectedID= event.data.id;
+    console.log("onUserRowSelect");
+    console.log(event);
+    //this._selectedID= event.data.id;
+    this._selectedID= event.data;
     this.selectedEvent.emit(this._selectedID)
   }
 
