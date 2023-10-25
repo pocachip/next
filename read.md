@@ -38,13 +38,15 @@ npm install --save-dev @angular/cli@latest
 
 
 #mysql
-cp result_mvo.json test.json
+cp result_mvo.son test.json
 sed -i '/^\[/d' test.json
 sed -i '/^\]/d' test.json
 sed -i '/^$/d' test.json
 sed 's/,$//g' test.json >test_out.json
 tr -d '\n' < test_out.json > test_online.json
 
+#jq validate json
+cat test_online.json | jq .
 
 MySQL shell 
 \c mysqlx://root:dmscks3927!@localhost

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, Directive, Input, ViewChild } from '@angular/core';
 import { takeWhile } from 'rxjs/operators';
-import { ContentsListComponent } from '../contents-list/contents-list.component';
-import {CheckListDetailComponent} from '../check-list-detail/check-list-detail.component'
+import { ContentsListComponent } from '../content-panel/contents-list/contents-list.component';
+import {CheckListDetailComponent} from './check-list-detail/check-list-detail.component'
 
 interface con_interface {
   id: string;

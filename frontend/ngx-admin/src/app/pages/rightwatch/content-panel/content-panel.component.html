@@ -1,0 +1,19 @@
+<div class="infinite-cards row">
+  <div class="col-md-4 col-lg-4 col-xxxl-4">
+    <nb-card class="own-scroll">
+      <nb-card-header>콘텐츠 목록</nb-card-header>
+      <nb-card-body>
+        <ngx-contents-list (selectedEvent)="changeContent($event)"> this is content_list</ngx-contents-list>
+      </nb-card-body>
+    </nb-card>
+  </div>
+
+  <div class="col-md-8 col-lg-8 col-xxxl-8">
+    <nb-card>
+      <nb-card-header>콘텐츠상세정보</nb-card-header>
+      <nb-card-body>
+        <ngx-content-detail [ID]="ID"></ngx-content-detail>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
