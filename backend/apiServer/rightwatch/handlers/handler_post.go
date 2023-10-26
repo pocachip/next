@@ -1,17 +1,18 @@
 package handlers
 
 import (
-	"rightwatch/models"
 	"github.com/gin-gonic/gin"
+	"rightwatch/models"
 )
 
 func init() {
 	groupApi.GET("post", postAll)
-	groupApi.GET("post/:id",  postOne)
-	groupApi.POST("post",  postCreate)
-	groupApi.PATCH("post",  postUpdate)
-	groupApi.DELETE("post/:id",  postDelete)
+	groupApi.GET("post/:id", postOne)
+	groupApi.POST("post", postCreate)
+	groupApi.PATCH("post", postUpdate)
+	groupApi.DELETE("post/:id", postDelete)
 }
+
 //All
 func postAll(c *gin.Context) {
 	mdl := models.Post{}
@@ -26,6 +27,7 @@ func postAll(c *gin.Context) {
 	}
 	jsonPagination(c, list, total, query)
 }
+
 //One
 func postOne(c *gin.Context) {
 	var mdl models.Post
@@ -40,6 +42,7 @@ func postOne(c *gin.Context) {
 	}
 	jsonData(c, data)
 }
+
 //Create
 func postCreate(c *gin.Context) {
 	var mdl models.Post
@@ -53,6 +56,7 @@ func postCreate(c *gin.Context) {
 	}
 	jsonData(c, mdl)
 }
+
 //Update
 func postUpdate(c *gin.Context) {
 	var mdl models.Post
@@ -66,6 +70,7 @@ func postUpdate(c *gin.Context) {
 	}
 	jsonSuccess(c)
 }
+
 //Delete
 func postDelete(c *gin.Context) {
 	var mdl models.Post

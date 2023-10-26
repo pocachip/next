@@ -10,6 +10,7 @@ import { CheckListDetailComponent } from './check-panel/check-list-detail/check-
 import { CheckPanelComponent } from './check-panel/check-panel.component';
 import { ContentDetailComponent } from './content-panel/content-detail/content-detail.component';
 import { ContentPanelComponent } from './content-panel/content-panel.component';
+import { RightwatchService } from './rightwatch.service';
 
 @NgModule({
   imports: [
@@ -29,6 +30,9 @@ import { ContentPanelComponent } from './content-panel/content-panel.component';
     CheckPanelComponent,
     ContentDetailComponent,
     ContentPanelComponent,
+  ],
+  providers: [
+    RightwatchService,
   ],
 })
 export class RightwatchModule { }

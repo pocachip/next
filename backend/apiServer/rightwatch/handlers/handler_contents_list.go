@@ -1,17 +1,18 @@
 package handlers
 
 import (
-	"rightwatch/models"
 	"github.com/gin-gonic/gin"
+	"rightwatch/models"
 )
 
 func init() {
 	groupApi.GET("contents-list", contentsListAll)
-	groupApi.GET("contents-list/:id",  contentsListOne)
-	groupApi.POST("contents-list",  contentsListCreate)
-	groupApi.PATCH("contents-list",  contentsListUpdate)
-	groupApi.DELETE("contents-list/:id",  contentsListDelete)
+	groupApi.GET("contents-list/:id", contentsListOne)
+	groupApi.POST("contents-list", contentsListCreate)
+	groupApi.PATCH("contents-list", contentsListUpdate)
+	groupApi.DELETE("contents-list/:id", contentsListDelete)
 }
+
 //All
 func contentsListAll(c *gin.Context) {
 	mdl := models.ContentsList{}
@@ -26,6 +27,7 @@ func contentsListAll(c *gin.Context) {
 	}
 	jsonPagination(c, list, total, query)
 }
+
 //One
 func contentsListOne(c *gin.Context) {
 	var mdl models.ContentsList
@@ -40,6 +42,7 @@ func contentsListOne(c *gin.Context) {
 	}
 	jsonData(c, data)
 }
+
 //Create
 func contentsListCreate(c *gin.Context) {
 	var mdl models.ContentsList
@@ -53,6 +56,7 @@ func contentsListCreate(c *gin.Context) {
 	}
 	jsonData(c, mdl)
 }
+
 //Update
 func contentsListUpdate(c *gin.Context) {
 	var mdl models.ContentsList
@@ -66,6 +70,7 @@ func contentsListUpdate(c *gin.Context) {
 	}
 	jsonSuccess(c)
 }
+
 //Delete
 func contentsListDelete(c *gin.Context) {
 	var mdl models.ContentsList

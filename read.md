@@ -52,6 +52,31 @@ MySQL shell
 \c mysqlx://root:dmscks3927!@localhost
 \use rightwatch
 util.importJson("c:\\test_online.json", {schema: "rightwatch", table:"tmp_post",tableColumn: "json"});
+
+# insert content_list2
+CREATE TABLE `kta_contents` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `genre` varchar(256) DEFAULT NULL,
+  `title` varchar(256) DEFAULT NULL,
+  `actors` TEXT DEFAULT NULL,
+  `director` varchar(256) DEFAULT NULL,
+  `price` varchar(256) DEFAULT NULL,
+  `enddate` varchar(256) DEFAULT NULL,
+  `synop` TEXT DEFAULT NULL,
+  `p_url` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4353 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO kta_contents(genre, title, actors, director, price, enddate, synop)  
+SELECT json->> '$."genre"',
+json->> '$."title"',
+json->> '$."actors"',
+json->> '$."director"',
+json->> '$."price"',
+json->> '$."enddate"',
+json->> '$."synop"'
+FROM tmp_post;
+
 # insert content_list
 INSERT INTO contents_list(title)  SELECT json->> '$."title"' FROM tmp_post
 

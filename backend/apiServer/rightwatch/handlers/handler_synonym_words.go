@@ -1,17 +1,18 @@
 package handlers
 
 import (
-	"rightwatch/models"
 	"github.com/gin-gonic/gin"
+	"rightwatch/models"
 )
 
 func init() {
 	groupApi.GET("synonym-word", synonymWordAll)
-	groupApi.GET("synonym-word/:id",  synonymWordOne)
-	groupApi.POST("synonym-word",  synonymWordCreate)
-	groupApi.PATCH("synonym-word",  synonymWordUpdate)
-	groupApi.DELETE("synonym-word/:id",  synonymWordDelete)
+	groupApi.GET("synonym-word/:id", synonymWordOne)
+	groupApi.POST("synonym-word", synonymWordCreate)
+	groupApi.PATCH("synonym-word", synonymWordUpdate)
+	groupApi.DELETE("synonym-word/:id", synonymWordDelete)
 }
+
 //All
 func synonymWordAll(c *gin.Context) {
 	mdl := models.SynonymWord{}
@@ -26,6 +27,7 @@ func synonymWordAll(c *gin.Context) {
 	}
 	jsonPagination(c, list, total, query)
 }
+
 //One
 func synonymWordOne(c *gin.Context) {
 	var mdl models.SynonymWord
@@ -40,6 +42,7 @@ func synonymWordOne(c *gin.Context) {
 	}
 	jsonData(c, data)
 }
+
 //Create
 func synonymWordCreate(c *gin.Context) {
 	var mdl models.SynonymWord
@@ -53,6 +56,7 @@ func synonymWordCreate(c *gin.Context) {
 	}
 	jsonData(c, mdl)
 }
+
 //Update
 func synonymWordUpdate(c *gin.Context) {
 	var mdl models.SynonymWord
@@ -66,6 +70,7 @@ func synonymWordUpdate(c *gin.Context) {
 	}
 	jsonSuccess(c)
 }
+
 //Delete
 func synonymWordDelete(c *gin.Context) {
 	var mdl models.SynonymWord

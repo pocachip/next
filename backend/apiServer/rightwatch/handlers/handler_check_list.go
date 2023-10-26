@@ -1,17 +1,18 @@
 package handlers
 
 import (
-	"rightwatch/models"
 	"github.com/gin-gonic/gin"
+	"rightwatch/models"
 )
 
 func init() {
 	groupApi.GET("check-list", checkListAll)
-	groupApi.GET("check-list/:id",  checkListOne)
-	groupApi.POST("check-list",  checkListCreate)
-	groupApi.PATCH("check-list",  checkListUpdate)
-	groupApi.DELETE("check-list/:id",  checkListDelete)
+	groupApi.GET("check-list/:id", checkListOne)
+	groupApi.POST("check-list", checkListCreate)
+	groupApi.PATCH("check-list", checkListUpdate)
+	groupApi.DELETE("check-list/:id", checkListDelete)
 }
+
 //All
 func checkListAll(c *gin.Context) {
 	mdl := models.CheckList{}
@@ -26,6 +27,7 @@ func checkListAll(c *gin.Context) {
 	}
 	jsonPagination(c, list, total, query)
 }
+
 //One
 func checkListOne(c *gin.Context) {
 	var mdl models.CheckList
@@ -40,6 +42,7 @@ func checkListOne(c *gin.Context) {
 	}
 	jsonData(c, data)
 }
+
 //Create
 func checkListCreate(c *gin.Context) {
 	var mdl models.CheckList
@@ -53,6 +56,7 @@ func checkListCreate(c *gin.Context) {
 	}
 	jsonData(c, mdl)
 }
+
 //Update
 func checkListUpdate(c *gin.Context) {
 	var mdl models.CheckList
@@ -66,6 +70,7 @@ func checkListUpdate(c *gin.Context) {
 	}
 	jsonSuccess(c)
 }
+
 //Delete
 func checkListDelete(c *gin.Context) {
 	var mdl models.CheckList

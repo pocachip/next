@@ -65,7 +65,7 @@ export class ContentsListComponent {
   source: ServerDataSource;
 
   conf ={ 
-    endPoint: "http://127.0.0.1:5555/api/v1/contents-list",
+    endPoint: "http://127.0.0.1:5555/api/v1/kta-content",
     totalKey: "total",
     dataKey: "data",
     pagerPageKey: "page",

@@ -2,13 +2,13 @@ package handlers
 
 import (
 	"fmt"
-	"rightwatch/models"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/autotls"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"log"
 	"path"
+	"rightwatch/models"
 )
 
 var r = gin.Default()

@@ -6,16 +6,16 @@ import (
 )
 
 func init() {
-	groupApi.GET("crawler-job", crawlerJobAll)
-	groupApi.GET("crawler-job/:id", crawlerJobOne)
-	groupApi.POST("crawler-job", crawlerJobCreate)
-	groupApi.PATCH("crawler-job", crawlerJobUpdate)
-	groupApi.DELETE("crawler-job/:id", crawlerJobDelete)
+	groupApi.GET("kta-content", ktaContentAll)
+	groupApi.GET("kta-content/:id", ktaContentOne)
+	groupApi.POST("kta-content", ktaContentCreate)
+	groupApi.PATCH("kta-content", ktaContentUpdate)
+	groupApi.DELETE("kta-content/:id", ktaContentDelete)
 }
 
 //All
-func crawlerJobAll(c *gin.Context) {
-	mdl := models.CrawlerJob{}
+func ktaContentAll(c *gin.Context) {
+	mdl := models.KtaContent{}
 	query := &models.PaginationQuery{}
 	err := c.ShouldBindQuery(query)
 	if handleError(c, err) {
@@ -29,8 +29,8 @@ func crawlerJobAll(c *gin.Context) {
 }
 
 //One
-func crawlerJobOne(c *gin.Context) {
-	var mdl models.CrawlerJob
+func ktaContentOne(c *gin.Context) {
+	var mdl models.KtaContent
 	id, err := parseParamID(c)
 	if handleError(c, err) {
 		return
@@ -44,8 +44,8 @@ func crawlerJobOne(c *gin.Context) {
 }
 
 //Create
-func crawlerJobCreate(c *gin.Context) {
-	var mdl models.CrawlerJob
+func ktaContentCreate(c *gin.Context) {
+	var mdl models.KtaContent
 	err := c.ShouldBind(&mdl)
 	if handleError(c, err) {
 		return
@@ -58,8 +58,8 @@ func crawlerJobCreate(c *gin.Context) {
 }
 
 //Update
-func crawlerJobUpdate(c *gin.Context) {
-	var mdl models.CrawlerJob
+func ktaContentUpdate(c *gin.Context) {
+	var mdl models.KtaContent
 	err := c.ShouldBind(&mdl)
 	if handleError(c, err) {
 		return
@@ -72,8 +72,8 @@ func crawlerJobUpdate(c *gin.Context) {
 }
 
 //Delete
-func crawlerJobDelete(c *gin.Context) {
-	var mdl models.CrawlerJob
+func ktaContentDelete(c *gin.Context) {
+	var mdl models.KtaContent
 	id, err := parseParamID(c)
 	if handleError(c, err) {
 		return

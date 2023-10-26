@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"errors"
-	"rightwatch/models"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"rightwatch/models"
 	"strconv"
 	"time"
 )
