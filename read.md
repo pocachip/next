@@ -52,6 +52,19 @@ MySQL shell
 \c mysqlx://root:dmscks3927!@localhost
 \use rightwatch
 util.importJson("c:\\test_online.json", {schema: "rightwatch", table:"tmp_post",tableColumn: "json"});
+# 콘텐츠별 체크리스트 order by 
+select * from (select a.id, a.title, count(*) as tc from kta_contents as a left join check_list as b on a.id = b.content_id group by a.id) as c order by tc desc;
+
+# 중복 확인 및 제거 방법
+-- 중복 데이터 찾기
+SELECT  title ,  -- 중복되는 데이터
+         COUNT(title) -- 중복 갯수
+FROM kta_contents              -- 중복조사를 할 테이블 이름
+GROUP BY title      -- 중복되는 항목 조사를 할 컬럼
+HAVING COUNT(title) > 1 ;  -- 1개 이상 (갯수)
+
+-- 중복 데이터 삭제
+delete t1 from kta_contents t1 join kta_contents t2 on t1.title=t2.title where t1.id > t2.id;
 
 # insert content_list2
 CREATE TABLE `kta_contents` (
@@ -143,4 +156,30 @@ git commit -m "add ..."
 git push
 
 
+
+select * from (select a.id, a.title, count(*) as tc from kta_contents as a left join check_list as b on a.id = b.content_id group by a.id) as c order by tc desc;
+
+#SubQuery
+db.Where("amount > (?)", db.Table("orders").Select("AVG(amount)")).Find(&orders)
+// SELECT * FROM "orders" WHERE amount > (SELECT AVG(amount) FROM "orders");
+
+subQuery := db.Select("AVG(age)").Where("name LIKE ?", "name%").Table("users")
+db.Select("AVG(age) as avgage").Group("name").Having("AVG(age) > (?)", subQuery).Find(&results)
+// SELECT AVG(age) as avgage FROM `users` GROUP BY `name` HAVING AVG(age) > (SELECT AVG(age) FROM `users` WHERE name LIKE "name%")
+
+
+#from sub query
+db.Table("(?) as u", db.Model(&User{}).Select("name", "age")).Where("age = ?", 18).Find(&User{})
+// SELECT * FROM (SELECT `name`,`age` FROM `users`) as u WHERE `age` = 18
+
+subQuery1 := db.Model(&User{}).Select("name")
+subQuery2 := db.Model(&Pet{}).Select("name")
+db.Table("(?) as u, (?) as p", subQuery1, subQuery2).Find(&User{})
+// SELECT * FROM (SELECT `name` FROM `users`) as u, (SELECT `name` FROM `pets`) as p
+
+
+db.Joins("JOIN emails ON emails.user_id = users.id AND emails.email = ?", "jinzhu@example.org").Find(&user)
+
+subQuery := db.Model(&kta_content{}).Select("id, title, count(*) as tc").Joins("left join check_list on kta_content.id=check_list.id).Group("id")
+db.Table("(?) as u", subQuery  ).Order(tc desc).find(&kta_content{})
 

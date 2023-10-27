@@ -1,8 +1,23 @@
-<div *ngIf="_data">{{_data.title }}</div>
-<div *ngIf="_data">{{_data.actors  }}</div>
-<div *ngIf="_data">{{_data.director }}</div>
-<div *ngIf="_data">{{_data.genre  }}</div>
-<div *ngIf="_data">{{_data.id  }}</div>
-<div *ngIf="_data">{{_data.price  }}</div>
-<div *ngIf="_data">{{_data.synop }}</div>
-<div *ngIf="_data">{{_data.id  }}</div>
+<div *ngIf="_data"> <!-- class="col-md-8"-->
+    <div class="row show-grid">
+        <div class="col-md-3">제목</div><div class="col-md-9">{{_data.title }}</div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-md-3">출연진</div><div class="col-md-9">{{_data.actors  }}</div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-md-3">감독</div><div class="col-md-9">{{_data.director }}</div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-md-3">장르</div> <div class="col-md-9">{{_data.genre  }}</div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-md-3">가격</div> <div class="col-md-9">{{_data.price}}원</div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-md-3">줄거리</div><div class="col-md-9">{{_data.synop }}</div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-md-3">URL</div> <div class="col-md-9">{{_data.id  }}</div>
+    </div>
+</div>
