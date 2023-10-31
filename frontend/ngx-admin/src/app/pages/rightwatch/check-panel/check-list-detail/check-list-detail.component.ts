@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Directive, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ServerDataSource } from 'ng2-smart-table';
 import { HttpClient } from '@angular/common/http';
@@ -15,7 +15,7 @@ interface con_interface {
   styleUrls: ['./check-list-detail.component.scss']
 })
 export class CheckListDetailComponent implements OnInit {
-  @ViewChild('changetitle') changetitle: ElementRef; 
+  @ViewChild('mass_timings') mass_timings: ElementRef<InnerHTML>;
   @Input()
     get content(): con_interface { return this._content;}
     set content(in_content: con_interface){
@@ -71,15 +71,10 @@ export class CheckListDetailComponent implements OnInit {
       },
       post_txt: {
         title: '게시글제목',
-        type: 'string',
-        /*
+        type: 'html',
         valuePrepareFunction: (title, row) => {
-            console.log("valuePrepareFunction");
-            console.log(row);
-            //return this.sanitizer.bypassSecurityTrustHtml(`<h6 class="text-white p-t-0 qlz-line-height text-center"><strong>${title} gal </strong> </h6>`);
-            return this.pocachip(title, row);
+            return this.sanitizer.bypassSecurityTrustHtml(this.changeRed(title));
         },
-        */
       },
       status: {
         title: 'status',
@@ -114,19 +109,16 @@ export class CheckListDetailComponent implements OnInit {
   constructor(private sanitizer: DomSanitizer, private http: HttpClient) { 
   }
 
-  pocachip(instr:string, instr2:any): any {
-    let rtnStr = '';
-    rtnStr = this._content.title +">>>"+instr;
-    this.changetitle.nativeElement.innerHTML = this.sanitizer.bypassSecurityTrustHtml(`<h6 class="text-white p-t-0 qlz-line-height text-center" style="background:#ff0000;"><strong>${instr} gal </strong> </h6>`);
-    return this.sanitizer.bypassSecurityTrustHtml(`<h6 class="text-white p-t-0 qlz-line-height text-center" style="background::#ff0000"><strong>${instr} gal </strong> </h6>`);
-    //return rtnStr;
+  private changeRed(instr: string): string {
+    let repl_word = '<font color="red">'+this._content.title+"</font>";
+    return instr.replace(this.content.title, repl_word) 
   }
   ngOnInit(): void {
     this.getData();
     this.hideColumnForUser();
     console.log(this);
   }
-  
+
   hideColumnForUser(){
     if(!this.isAdmin){
         delete this.settings.columns.id;

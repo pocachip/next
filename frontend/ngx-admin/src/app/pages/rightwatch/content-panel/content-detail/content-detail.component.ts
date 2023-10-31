@@ -47,7 +47,7 @@ export class ContentDetailComponent implements OnInit {
 
   getData(){
       if(this._id){ 
-        let urlin = `http://127.0.0.1:5555/api/v1/kta-content/${this._id}`;
+      let urlin = `http://127.0.0.1:5555/api/v1/kta-content/${this.ID}`;
         this.apiService.getData(urlin).subscribe((data) =>{
           this._data = data.data;
         });
@@ -67,7 +67,6 @@ export class ContentDetailComponent implements OnInit {
       event.confirm.reject();
     }
   }
-  
 }
 
 /*
