@@ -1,3 +1,4 @@
+<div>콘텐츠 검색</div><input #search class="search" type="text" placeholder="Search..." (keydown.enter)="onSearch(search.value)">
 <ng2-smart-table [settings]="settings" [source]="source" 
   (userRowSelect)="onUserRowSelect($event)"
   (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table>

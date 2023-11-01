@@ -55,19 +55,23 @@ export class CheckListDetailComponent implements OnInit {
       id: {
         title: 'ID',
         type: 'number',
+        filter: false,
       },
       content_id: {
         title: '콘텐츠ID',
         type: 'number',
+        filter: false,
       },
       post_id: {
         title: 'post_id',
         type: 'string',
         width: '5px',
+        filter: false,
       },
       post_idx: {
         title: 'post_idx',
         type: 'string',
+        filter: false,
       },
       post_txt: {
         title: '게시글제목',
@@ -75,18 +79,22 @@ export class CheckListDetailComponent implements OnInit {
         valuePrepareFunction: (title, row) => {
             return this.sanitizer.bypassSecurityTrustHtml(this.changeRed(title));
         },
+        filter: false,
       },
       status: {
         title: 'status',
         type: 'integer',
+        filter: false,
       },
       first_time: {
         title: 'first_time',
         type: 'date-time',
+        filter: false,
       },
       update_time: {
         title: 'update_time',
         type: 'date-time',
+        filter: false,
       },
     },
     pager: {
@@ -116,7 +124,6 @@ export class CheckListDetailComponent implements OnInit {
   ngOnInit(): void {
     this.getData();
     this.hideColumnForUser();
-    console.log(this);
   }
 
   hideColumnForUser(){

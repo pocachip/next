@@ -11,6 +11,18 @@ export interface IDataApi {
   total: number;
 }
 
+export interface IContent {
+  id : number;
+  title : string;
+  actors : string;
+  director: string;
+  genre: string;
+  price : string;
+  synop : string;
+  enddate : string;
+  p_url : string;
+}
+
 export interface IContentDetail {
   id : number;
   title : string;
@@ -42,7 +54,6 @@ export class ContentDetailComponent implements OnInit {
   _data: IContentDetail;
 
   constructor(private http: HttpClient, private apiService: RightwatchService) {
-    console.log('content detail comp constructor')
   }
 
   getData(){
@@ -55,8 +66,6 @@ export class ContentDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("ngOnInit");
-    console.log(this);
     this.getData();
   }
 

@@ -32,6 +32,7 @@ export class PostListComponent {
       website: {
         title: 'website',
         type: 'number',
+        withd: '2px',
       },
       cat1_code: {
         title: 'cat1_code',

@@ -35,34 +35,42 @@ export class CheckListComponent {
       id: {
         title: 'ID',
         type: 'number',
+        filter: false,
       },
       content_id: {
         title: '콘텐츠ID',
         type: 'number',
+        filter: false,
       },
       post_id: {
         title: 'post_id',
         type: 'string',
+        filter: false,
       },
       post_idx: {
         title: 'post_idx',
         type: 'string',
+        filter: false,
       },
       post_txt: {
         title: 'idx',
         type: 'string',
+        filter: false,
       },
       status: {
         title: 'status',
         type: 'integer',
+        filter: false,
       },
       first_time: {
         title: 'first_time',
         type: 'date-time',
+        filter: false,
       },
       update_time: {
         title: 'update_time',
         type: 'date-time',
+        filter: false,
       },
     },
     pager: {

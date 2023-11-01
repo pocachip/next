@@ -16,19 +16,13 @@ export class ContentPanelComponent implements OnDestroy {
   ID :string = '';
 
   constructor() {
-    console.log("constructor")
-    console.log(this);
    }
 
   changeContent(event: any){
-    console.log("Parent changeContent");
     this.ID = event.id;
-    console.log(this);
   }
 
   ngOnDestroy() {
     this.alive = false;
   }
-
-
 }

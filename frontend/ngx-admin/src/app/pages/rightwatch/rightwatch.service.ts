@@ -27,9 +27,8 @@ export class RightwatchService {
   constructor(private http: HttpClient) {}
 
   getData(url: string): Observable<IApiData>{
-    console.log("getData.....")
+    //console.log("getData.....")
     console.log(url)
-    console.log("getData.....")
     return this.http.get<IApiData>(url);
   }
 /*
