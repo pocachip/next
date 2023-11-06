@@ -90,7 +90,7 @@ func crudDelete(m interface{}) (err error) {
 }
 func getResourceCount(m interface{}, q *PaginationQuery) (uint, *gorm.DB) {
 	var tx = mysqlDB.Model(m)
-	/*
+	
 	conditions := strings.Split(q.Where, ",")
 	for _, val := range conditions {
 		w := strings.SplitN(val, ":", 2)
@@ -112,7 +112,7 @@ func getResourceCount(m interface{}, q *PaginationQuery) (uint, *gorm.DB) {
 			}
 		}
 	}
-	*/
+	
 	conditions2 := strings.Split(q.Where1, ",")
 	for _, val := range conditions2 {
 		w := strings.SplitN(val, ":", 2)
