@@ -183,3 +183,7 @@ db.Joins("JOIN emails ON emails.user_id = users.id AND emails.email = ?", "jinzh
 subQuery := db.Model(&kta_content{}).Select("id, title, count(*) as tc").Joins("left join check_list on kta_content.id=check_list.id).Group("id")
 db.Table("(?) as u", subQuery  ).Order(tc desc).find(&kta_content{})
 
+# Crawler
+1. venv activate
+2. scrapy crawl ondisk_p -o result.json -a category=MVO sub_sec=MVO_002  //multi arguemnt pass
+   --need to fix don't count bbs if it has command arguments...

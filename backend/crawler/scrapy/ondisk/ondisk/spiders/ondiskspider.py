@@ -3,7 +3,7 @@ from scrapy_playwright.page import PageMethod
 
 
 class OndiskSpider(scrapy.Spider):
-    name = 'ondisk'
+    name = 'ondisk_1'
 
     def start_requests(self):
         yield scrapy.Request( 

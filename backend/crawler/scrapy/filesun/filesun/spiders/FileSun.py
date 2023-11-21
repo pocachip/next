@@ -221,6 +221,8 @@ class FilesunSpider(scrapy.Spider):
         nxpage = ""
         last_page_n = 0
         cur_page_s = ""
+        cur_page_n = 1
+
         for page in pagings:
             classtype = page.css('::attr(class)').get()
             if classtype == "page":
