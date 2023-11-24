@@ -22,7 +22,7 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 #USER_AGENT = "ondisk (+http://www.yourdomain.com)"
 PLAYWRIGHT_LAUNCH_OPTIONS = {
     "headless": False,
-    "timeout": 20 * 1000,  # 20 seconds
+    "timeout": 10 * 1000,  # 20 seconds
 }
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -36,9 +36,9 @@ LOG_LEVEL = "INFO"
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 3
+#DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 10 
+#CONCURRENT_REQUESTS_PER_DOMAIN = 10 
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
@@ -73,9 +73,9 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 10
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "ondisk.pipelines.OndiskPipeline": 300,
-#}
+ITEM_PIPELINES = {
+    "ondisk.pipelines.OndiskPipeline": 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -102,3 +102,11 @@ AUTOTHROTTLE_ENABLED = True
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+# Set mysql for cache control //don't scrapy if if already has...
+#MYSQL_HOST = "127.0.0.1"
+MYSQL_HOST = "localhost"
+MYSQL_USER = "pocachip"
+MYSQL_PASSWORD = "media2015!"
+MYSQL_DATABASE = "rightwatch"
+MYSQL_TABLE =  "post"

@@ -38,6 +38,18 @@ npm install --save-dev @angular/cli@latest
 
 
 #mysql
+ubuntu에 mysql 깔고 
+#외부 접속 권한 만들기
+ALTER USER 'pocachip'@'%' IDENTIFIED WITH mysql_native_password by 'media2015!';
+CREATE USER 'pocachip'@'%' IDENTIFIED BY 'media2015!';
+GRANT ALL PRIVILEGES ON *.* to 'pocachip'@'%';
+flush privileges;
+
+# 데이타 옮기기
+1. mysql workbench data export
+2. window explorer files copy -> 원격 컴퓨터 files paste
+3. mysql workbench data import 
+
 cp result_mvo.son test.json
 sed -i '/^\[/d' test.json
 sed -i '/^\]/d' test.json
@@ -49,7 +61,7 @@ tr -d '\n' < test_out.json > test_online.json
 cat test_online.json | jq .
 
 MySQL shell 
-\c mysqlx://root:dmscks3927!@localhost
+\c mysqlx://root:dmscks3927!(server: media123! companypc: dmstn3927!)@localhost
 \use rightwatch
 util.importJson("c:\\test_online.json", {schema: "rightwatch", table:"tmp_post",tableColumn: "json"});
 # 콘텐츠별 체크리스트 order by 
@@ -187,3 +199,26 @@ db.Table("(?) as u", subQuery  ).Order(tc desc).find(&kta_content{})
 1. venv activate
 2. scrapy crawl ondisk_p -o result.json -a category=MVO sub_sec=MVO_002  //multi arguemnt pass
    --need to fix don't count bbs if it has command arguments...
+3. mysql 연동
+pip3 install mysql-connector-python
+
+ondisk_spider.py : full scan with file output, it need settings.py without pipelines.py / spider name: ondisk_po
+ondisk_spider2.py : update scan without file output, it need settings.py with pipelines.py / spider name: ondisk_update
+
+
+# docker
+1. docker -v   (windows power shell)
+2. docker pull mysql 
+3. docker images
+4. docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=<password> -d -p 3306:3306 mysql:latest
+5. 
+	# MySQL Docker 컨테이너 중지
+	$ docker stop mysql-container
+
+	# MySQL Docker 컨테이너 시작
+	$ docker start mysql-container
+
+	# MySQL Docker 컨테이너 재시작
+	$ docker restart mysql-container
+6. 접속
+$ docker exec -it mysql-container1 bash
