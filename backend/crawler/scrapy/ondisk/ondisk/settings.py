@@ -24,6 +24,8 @@ PLAYWRIGHT_LAUNCH_OPTIONS = {
     "headless": False,
     "timeout": 10 * 1000,  # 20 seconds
 }
+PLAYWRIGHT_DEFAULT_NAVIGATION_TIMEOUT = 60000 # 60s
+
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 

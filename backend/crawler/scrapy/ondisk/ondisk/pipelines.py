@@ -100,7 +100,7 @@ class OndiskPipeline:
         return self.ids_seen
 
     def close_spider(self, spider):
-        self.cursor.colse()
+        self.cursor.close()
         self.conn.close()
 
     def process_item(self, item, spider):
@@ -152,4 +152,5 @@ class OndiskPipeline:
             return item
         except mysql.connector.Error as e:
             print("Process error")
+            spider.crawler.engine.close_spider(self, reason='db insert failed ')
             raise DropItem(f'Error inserting item: {e}')
