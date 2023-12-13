@@ -15,6 +15,7 @@ from crawlab import save_item #for Crawlab
 import scrapy.utils.misc
 import scrapy.core.scraper
 import pymysql
+from scrapy.exceptions import CloseSpider
 
 class OndiskSpider(scrapy.Spider):
     name = "ondisk_update"
@@ -42,6 +43,11 @@ class OndiskSpider(scrapy.Spider):
         self.category = category
         self.subsec = subsec
         self.myPipeline = None
+
+        #Dictionary key: cat1+cat2  value: no_new_cnt   0~max_no_new
+        self.new_dic = dict()
+        self.max_scan_new_page = 3
+        
 #        self.ids_seen = set()
 
 #        self.ids_seen = set()
@@ -225,13 +231,18 @@ class OndiskSpider(scrapy.Spider):
         cur_page_n = 1
         tot_page_n = j_response["tpage"] # "MVO"
 
+        self.new_dic.setdefault(cat2_code,0)
         #await page.close()
         #if m_cur_page is None:
         while cur_page_n <= tot_page_n:
+            if self.new_dic.get(cat2_code) > (self.max_scan_new_page-1):
+                return
             #print("=====================================================")
-#            print(cat1_code+'>'+cat2_code+':('+str(cur_page_n)+'/'+str(tot_page_n))
+            #print(cat1_code+'>'+cat2_code+':('+str(cur_page_n)+'/'+str(tot_page_n))
             url = "https://www.ondisk.co.kr/main/module/bbs_list_sphinx_prc.php"
             cur_page_s =str(cur_page_n)
+            # cat1_code cat2_code noNewCnt
+            
             headers = {'Accept': 'application/json, text/javascript, */*; q=0.01', 'Accept-Encoding': 'gzip, deflate, br', 'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'Host': 'www.ondisk.co.kr', 'Pragma': 'no-cache', 'Referer': response.url, 'Sec-Ch-Ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"', 'Sec-Ch-Ua-Mobile': '?0', 'Sec-Ch-Ua-Platform': '"Windows"', 'Sec-Fetch-Dest': 'empty', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Site': 'same-origin', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36', 'X-Requested-With': 'XMLHttpRequest'}
             yield FormRequest(url, 
                 method = "GET", 
@@ -255,10 +266,20 @@ class OndiskSpider(scrapy.Spider):
             cur_page_n += 1
 #               print(cat1_code+'>'+cat2_code+':'+cat1_title+'>'+cat2_title+':'+cur_page_s+'/'+tot_page_s+'\n')
 
+
     def Page_Item(self, response):
         if response.status != 200:
             print("Page_Item Faild!!!!!")
             print(response.status)
+
+        b_close = True
+        for value in  self.new_dic.values():
+            if value < self.max_scan_new_page: 
+                b_close = False
+        if b_close:
+            for key, value in self.new_dic.items():
+              print(key, value)
+            raise CloseSpider("max noNew count exceeded")
 
         j_response = json.loads(response.text)
         bbs_body = Selector(text=j_response["list"])
@@ -273,11 +294,18 @@ class OndiskSpider(scrapy.Spider):
         else:
             print("Page_Item func fail to cat2_code!!!!!!!!!!!!!!!!!!!!!!!")
 
+        if self.new_dic.get(cat2_code) > (self.max_scan_new_page-1):
+            return
+
         category_title = j_response["category_title"]# #"영화"
         sub_category_title = j_response["sub_category_title"] #고화질HD
         #tpage = Selector(text=j_response["tpage"]) # 308
         #print ('    '+category_title+'>'+sub_category_title+':\n')
 
+        #self.new_dic.update(cat2_code=0)
+        
+        b_newarticle = False
+    
         for bbs_line in bbs_body.xpath("//tr[not(@*)]"):  
             # blank line skip
             chk_line = bbs_line.css('td.sumy_view').get()
@@ -290,12 +318,11 @@ class OndiskSpider(scrapy.Spider):
             #print("idx size:" + str(len(self.myPipeline.get_ids())))
             #if idx in self.ids_seen:
             if idx in self.myPipeline.get_ids():
-            #   print("idx exist:", idx)
                 continue
-            #else:
-            #    print("idx new:", idx)
-            #    continue
-
+            else:
+                b_newarticle =  True #하나라도 새로운 게시글이 있으면 true로 하고 나중에 no_new_dic을 올림(maxcheck)
+#                print("idx new:", idx)
+#                continue
 
             txt = bbs_line.css('td.subject>span.summy_brd>a.summy_link>span.textOverflow>span.txt>span::text').get()
 
@@ -334,7 +361,13 @@ class OndiskSpider(scrapy.Spider):
                       "max_retry_times" : 3, 
                      },
             )        
+        if not b_newarticle:
+            self.new_dic[cat2_code] = self.new_dic.get(cat2_code) + 1
+            print('increase no page '+cat2_code+": "+ str(self.new_dic.get(cat2_code)))
+        
 
+
+        
     async def Page_Item_Detail(self, response):
         #print('Page_Item_Detail===============================start')
         if response.status != 200:
