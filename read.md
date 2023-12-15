@@ -1,6 +1,23 @@
 this is my next project (by pocachip 2023-10-17)
 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
 
+#crontab
+1. select-editor (default crontab editer -->2)
+2. crontab -e
+   * * * * * doitnow.sh (1분마다 실행)
+   */10 * * * * doitnow.sh (10분마다 실행)
+   15 * * * * doitnow.sh (매시 15분마다 실행)
+   0 * * * * doitnow.sh (매시간 실행)
+   0 */2 * * * doitnow.sh (2시간마다 실행)
+   00 11,16 * * * /home/ramesh/bin/incremental-backup (11시 16시 실행)
+   00 09-18 * * * /home/ramesh/bin/check-db-status (9~18시 매시간 실행)
+   00 09-18 * * 1-5 /home/ramesh/bin/check-db-status (주말 제외 Sunday=0)
+   30 23 * * *   timeout 18000  /usr/bin/php /var/www/ul/prices_all.php >> /var/www/ul/log/prices_all.txt (5시간 이후 자동 멈춤)
+ 
+3. service cron staus
+  service cron start(restart/stop) 
+4. kill 특정 크론 명령
+pkill -f 'wget -q -O - https://happist.com/wp-cron.php?doing_wp_cron >/dev/null 2>&1'
 #ngx-admin은 
 nvm ls-remote
 1.install node 14.21.3

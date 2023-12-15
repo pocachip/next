@@ -21,7 +21,7 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "ondisk (+http://www.yourdomain.com)"
 PLAYWRIGHT_LAUNCH_OPTIONS = {
-    "headless": False,
+    "headless": True,
     "timeout": 10 * 1000,  # 20 seconds
 }
 PLAYWRIGHT_DEFAULT_NAVIGATION_TIMEOUT = 60000 # 60s

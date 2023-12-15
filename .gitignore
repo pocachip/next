@@ -120,5 +120,8 @@ dist
 #보안관련해서..
 package-lock.json
 
+#scrapy 결과 파일 
+result*.json
+
 # venv
 venv/
