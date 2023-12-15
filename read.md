@@ -18,6 +18,21 @@ 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
   service cron start(restart/stop) 
 4. kill 특정 크론 명령
 pkill -f 'wget -q -O - https://happist.com/wp-cron.php?doing_wp_cron >/dev/null 2>&1'
+
+#mysql columns 변경
+select count(idx), DATE_FORMAT(STR_TO_DATE(REPLACE(last_update, '"', ''), '%Y-%m-%d %H:%i:%s'), '%Y-%m-%d %H') from rightwatch.post
+group by DATE_FORMAT(STR_TO_DATE(REPLACE(last_update, '"', ''), '%Y-%m-%d %H:%i:%s'), '%Y-%m-%d %H');
+
+select count(idx), DATE_FORMAT(last_update, '%Y-%m-%d %H') from rightwatch.post
+group by DATE_FORMAT(last_update, '%Y-%m-%d %H');
+
+alter table rightwatch.post add column last_update2 DATETIME;
+alter table rightwatch.post drop last_update;
+alter table rightwatch.post drop last_update1;
+alter table rightwatch.post change last_update2 last_update DATETIME;
+update rightwatch.post
+set last_update2 = str_to_date(REPLACE(last_update, '"', ''), '%Y-%m-%d %H:%i:%s');
+
 #ngx-admin은 
 nvm ls-remote
 1.install node 14.21.3

@@ -560,15 +560,16 @@ class OndiskSpider(scrapy.Spider):
         bbs_item["partner"] = partner 
         bbs_item["attach_file_size"] = attach_file_size 
 
-        now = datetime.now() + timedelta(days=10)
+        now = datetime.now() #+ timedelta(days=10)
         #now = datetime.datetime.now()
         a_str = now.strftime('%Y-%m-%d %H:%M:%S')
+        bbs_item["time"] = a_str
         #print(a_str) # 👉️ 2023-07-19 17:47:16
-        json_str = json.dumps(a_str)
+        #json_str = json.dumps(a_str)
+        #bbs_item["time"] = json_str
         #print(json_str) # 👉️ "2023-07-19 17:47:16"
-        bbs_item["time"] = json_str
 
-        save_item(bbs_item) #for crawlab
+#        save_item(bbs_item) #for crawlab
         yield bbs_item
 
         if False:
