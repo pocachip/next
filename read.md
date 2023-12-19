@@ -268,3 +268,4 @@ ondisk_spider2.py : update scan without file output, it need settings.py with pi
 6. 접속
 $ docker exec -it mysql-container1 bash
 test
+test company
