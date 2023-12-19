@@ -269,3 +269,4 @@ ondisk_spider2.py : update scan without file output, it need settings.py with pi
 $ docker exec -it mysql-container1 bash
 test
 test company
+test company2
