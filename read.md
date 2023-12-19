@@ -36,6 +36,11 @@ set last_update2 = str_to_date(REPLACE(last_update, '"', ''), '%Y-%m-%d %H:%i:%s
 #ngx-admin은 
 nvm ls-remote
 1.install node 14.21.3
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+  source ~/.bashrc
+  nvm --version
+  nvm list
+  
 2. rmp run got some error('Server bla bla...')
 3. npm i --save @types/ws@8.5.4
 

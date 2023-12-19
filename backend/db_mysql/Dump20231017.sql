@@ -60,7 +60,7 @@ DROP TABLE IF EXISTS `post`;
 CREATE TABLE `post` (
   `id` int NOT NULL AUTO_INCREMENT,
   `website` int NOT NULL,
-  `cat1_code` varchar(10) DEFAULT NULL,
+  `cat2_code` varchar(10) DEFAULT NULL,
   `cat2_code` varchar(10) DEFAULT NULL,
   `cat1_title` varchar(30) DEFAULT NULL,
   `cat2_title` varchar(30) DEFAULT NULL,
