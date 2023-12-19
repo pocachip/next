@@ -76,6 +76,14 @@ npm install --save-dev @angular/cli@latest
 
 #mysql
 ubuntu에 mysql 깔고 
+$sudo apt-get update
+$sudo apt-get install mysql-server
+$sudo ufx allow mysql
+$sudo systemctl enable mysql
+$mysql -u root -p
+mysql>use mysql
+SELECT User, Host, authentication_string FROM mysql.user;
+
 #외부 접속 권한 만들기
 ALTER USER 'pocachip'@'%' IDENTIFIED WITH mysql_native_password by 'media2015!';
 CREATE USER 'pocachip'@'%' IDENTIFIED BY 'media2015!';
