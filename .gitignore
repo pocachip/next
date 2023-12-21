@@ -125,3 +125,5 @@ result*.json
 
 # venv
 venv/
+# cron log
+goodlog.txt
