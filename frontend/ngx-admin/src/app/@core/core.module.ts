@@ -39,6 +39,7 @@ import { UserActivityService } from './mock/user-activity.service';
 import { OrdersChartService } from './mock/orders-chart.service';
 import { ProfitChartService } from './mock/profit-chart.service';
 import { TrafficListService } from './mock/traffic-list.service';
+import { CrawlTrafficListService } from './mock/crawl-traffic-list.service';
 import { EarningService } from './mock/earning.service';
 import { OrdersProfitChartService } from './mock/orders-profit-chart.service';
 import { TrafficBarService } from './mock/traffic-bar.service';

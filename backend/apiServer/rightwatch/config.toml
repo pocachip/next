@@ -20,7 +20,7 @@
 [mysql]
     addr = "127.0.0.1:3306"
     user = "pocachip"
-    password = "media2015!"
+    password = "dmstn3927!"
     database = "rightwatch"
     charset = "utf8"
 [redis]

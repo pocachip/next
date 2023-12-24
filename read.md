@@ -270,3 +270,17 @@ $ docker exec -it mysql-container1 bash
 test
 test company
 test company2
+
+# screen shot
+CREATE TABLE `screenshots` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `url` TEXT,
+  `url_md5` CHAR(32) AS (MD5(url)),
+  `ct` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4098 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+insert into screenshots (id, url, ct) values ("www.google.co.kr",  now()); 
+select * from screenshots;
+select * from screenshots where url_md5 = MD5("www.google.co.kr");
