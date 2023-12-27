@@ -1,5 +1,6 @@
 /.vagrant
 /scrapy.iml
+goodlog.txt
 *.pyc
 _trial_temp*
 dropin.cache
